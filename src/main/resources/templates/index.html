@@ -2,22 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>TOGAR</title>
+    <title>TOGAR Login Page</title>
     <link rel="stylesheet" href="templatescss/login.css">
 
 </head>
 <body>
 <div id="login-form-wrap">
     <h2>Welcome to TOGAR</h2>
-    <h4>Login</h4>
-    <form id="login-form" action="#" th:action="@{/loggedin}" th:object="${loginForm}" method="post">
+    <form id="login-form" action="#" th:action="@{/index}" th:object="${loginForm}" method="post">
         <p>
-            <span th:if="${#fields.hasGlobalErrors()}" th:errors="*{global}">Global error</span><br/>
             <input type="text" th:field="*{username}" placeholder="Username" id="username" name="username" required><span></span>
-            <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username error</span><br/>
         </p>
         <p>
-            <button type="submit", id>Login</button>
+            <button type="submit">Login</button>
         </p>
     </form>
 </div>

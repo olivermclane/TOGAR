@@ -26,7 +26,7 @@ public class LoginController {
         return "index";
     }
 
-    @GetMapping("/loggedfailed")
+    @GetMapping("/loginfailed")
     public String loginFailed()     {
        return "loginfailed";
     }

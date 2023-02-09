@@ -17,10 +17,10 @@ public class loginServImpl implements loginService {
 
     /**
      *
-     * @param loginR
+     * @param loginRe
      */
-    public loginServImpl(loginRepo loginR) {
-        this.loginR = loginR;
+    public loginServImpl(loginRepo loginRe) {
+        this.loginR = loginRe;
     }
 
     /**

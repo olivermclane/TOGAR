@@ -24,7 +24,7 @@ public class login {
     @GeneratedValue
     private Integer id;
 
-    //Column in DB for username and stored along side the ID
+    //Column in DB for username and stored alongside the ID, this username should be unique
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
