@@ -19,6 +19,10 @@ public class LoginController {
     public LoginController(loginService loginService)    {
         this.loginService = loginService;
     }
+    @GetMapping("/")
+    public String index() {
+        return "redirect:/index";
+    }
 
     @GetMapping("/index")
     public String loginGet(Model model)     {
@@ -31,10 +35,10 @@ public class LoginController {
        return "loginfailed";
     }
 
-    @GetMapping("/loggedin")
+    @GetMapping("/togar")
     public String loginSuccess(String username, Model model)    {
         model.addAttribute("username", username);
-        return "loggedin";
+        return "togar";
     }
 
     @PostMapping("/index")
@@ -48,8 +52,10 @@ public class LoginController {
             result.addError(new ObjectError("globalError", "Username has issues with more than one instance"));
             return "index";
         }
+
+        //this will handle redirecting to the users to there "unique" loggedin page.
         attrs.addAttribute("Username", logForm.getUsername());
-        return "redirect:/loggedin";
+        return "redirect:/togar";
     }
 
 }
