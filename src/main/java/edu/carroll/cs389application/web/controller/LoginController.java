@@ -12,35 +12,69 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+/**
+ *
+ */
 @Controller
 public class LoginController {
     private final loginService loginService;
 
+    /**
+     *
+     * @param loginService
+     */
     public LoginController(loginService loginService)    {
         this.loginService = loginService;
     }
+
+    /**
+     *
+     * @return
+     */
     @GetMapping("/")
     public String index() {
         return "redirect:/index";
     }
 
+    /**
+     *
+     * @param model
+     * @return
+     */
     @GetMapping("/index")
     public String loginGet(Model model)     {
         model.addAttribute("loginForm", new loginForm());
         return "index";
     }
 
+    /**
+     *
+     * @return
+     */
     @GetMapping("/loginfailed")
     public String loginFailed()     {
        return "loginfailed";
     }
 
+    /**
+     *
+     * @param username
+     * @param model
+     * @return
+     */
     @GetMapping("/togar")
     public String loginSuccess(String username, Model model)    {
         model.addAttribute("username", username);
         return "togar";
     }
 
+    /**
+     *
+     * @param logForm
+     * @param result
+     * @param attrs
+     * @return
+     */
     @PostMapping("/index")
     public String loginPost(@Valid @ModelAttribute loginForm logForm, BindingResult result, RedirectAttributes attrs){
         if (result.hasErrors()){

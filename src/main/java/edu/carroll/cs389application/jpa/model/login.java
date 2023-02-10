@@ -6,24 +6,43 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+/**
+ *
+ */
 @Entity
 @Table(name="logindata")
 public class login {
+    /**
+     *
+     */
     private static final long serialVersionUID = 1L;
 
+    /**
+     *
+     */
     public login(){
 
     }
 
+    /**
+     *
+     * @param username
+     */
     public login(String username){
         this.username = username;
     }
 
-    //Our keyvalue
+
+    /**
+     *
+     */
     @Id
     @GeneratedValue
     private Integer id;
 
+    /**
+     *
+     */
     //Column in DB for username and stored alongside the ID, this username should be unique
     @Column(name = "username", nullable = false, unique = true)
     private String username;
@@ -65,6 +84,10 @@ public class login {
     private static final String EOL = System.lineSeparator();
     private static final String TAB = "\t";
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
