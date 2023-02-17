@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 /**
  *
  */
-public class loginForm {
+public class LoginForm {
     /**
      *
      */
@@ -33,14 +33,14 @@ public class loginForm {
     /**
      *
      */
-    public loginForm() {
+    public LoginForm() {
     }
 
     /**
      *
      * @param username
      */
-    public loginForm(String username) {
+    public LoginForm(String username) {
         this.username = username;
     }
 }

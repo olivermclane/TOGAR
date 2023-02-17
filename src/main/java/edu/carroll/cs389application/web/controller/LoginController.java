@@ -1,7 +1,7 @@
 package edu.carroll.cs389application.web.controller;
 
-import edu.carroll.cs389application.service.loginService;
-import edu.carroll.cs389application.web.form.loginForm;
+import edu.carroll.cs389application.service.LoginService;
+import edu.carroll.cs389application.web.form.LoginForm;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +17,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class LoginController {
-    private final loginService loginService;
+    private final LoginService loginService;
 
     /**
      *
      * @param loginService
      */
-    public LoginController(loginService loginService)    {
+    public LoginController(LoginService loginService)    {
         this.loginService = loginService;
     }
 
@@ -43,7 +43,7 @@ public class LoginController {
      */
     @GetMapping("/index")
     public String loginGet(Model model)     {
-        model.addAttribute("loginForm", new loginForm());
+        model.addAttribute("loginForm", new LoginForm());
         return "index";
     }
 
@@ -76,7 +76,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/index")
-    public String loginPost(@Valid @ModelAttribute loginForm logForm, BindingResult result, RedirectAttributes attrs){
+    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs){
         if (result.hasErrors()){
             return "index";
         }

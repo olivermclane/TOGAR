@@ -1,8 +1,8 @@
 package edu.carroll.cs389application.service;
 
-import edu.carroll.cs389application.jpa.model.login;
-import edu.carroll.cs389application.jpa.repo.loginRepo;
-import edu.carroll.cs389application.web.form.loginForm;
+import edu.carroll.cs389application.jpa.model.Login;
+import edu.carroll.cs389application.jpa.repo.LoginRepo;
+import edu.carroll.cs389application.web.form.LoginForm;
 import org.springframework.stereotype.Service;
 
 import org.slf4j.Logger;
@@ -11,15 +11,15 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 
 @Service
-public class loginServImpl implements loginService {
-    private static final Logger log = LoggerFactory.getLogger(loginServImpl.class);
-    private final loginRepo loginR;
+public class LoginServImpl implements LoginService {
+    private static final Logger log = LoggerFactory.getLogger(LoginServImpl.class);
+    private final LoginRepo loginR;
 
     /**
      *
      * @param loginRe
      */
-    public loginServImpl(loginRepo loginRe) {
+    public LoginServImpl(LoginRepo loginRe) {
         this.loginR = loginRe;
     }
 
@@ -29,27 +29,27 @@ public class loginServImpl implements loginService {
      * @return true if the user exist, false elsewise
      */
     @Override
-    public boolean validateUsername(loginForm LoginForm)    {
-        log.info("Validating user: user '{} attempted login", LoginForm.getUsername());
+    public boolean validateUsername(LoginForm LoginForm)    {
+        log.info("User '{} has attempted login", LoginForm.getUsername());
         // grab our list
-        List<login> users = loginR.findByUsernameIgnoreCase(LoginForm.getUsername());
+        List<Login> users = loginR.findByUsernameIgnoreCase(LoginForm.getUsername());
 
         //No users were found as such new user must be created.
         if (users.size() == 0)  {
-            login newuser = new login();
+            Login newuser = new Login();
             newuser.setUsername(LoginForm.getUsername());
             loginR.save(newuser);
-            log.debug("validateUser: no user found creating user {}", LoginForm.getUsername());
+            log.debug("No user found: creating user {}", LoginForm.getUsername());
             return true;
         }
         //Multiple users found which shouldn't occur but must handle.
         if (users.size() > 1)   {
-            log.debug("validateUser: found several {} users", users.size());
+            log.error("Error: found several {} users", users.size());
             return false;
         }
 
         //Found existing username, no password needed in my app
-        log.debug("validateUser: successful login, single user found {}", LoginForm.getUsername());
+        log.info("Success: successful login, single user found {}", LoginForm.getUsername());
         return true;
 
     }

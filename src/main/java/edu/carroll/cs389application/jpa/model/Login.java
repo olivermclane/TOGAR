@@ -1,17 +1,13 @@
 package edu.carroll.cs389application.jpa.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  *
  */
 @Entity
 @Table(name="logindata")
-public class login {
+public class Login {
     /**
      *
      */
@@ -20,7 +16,7 @@ public class login {
     /**
      *
      */
-    public login(){
+    public Login(){
 
     }
 
@@ -28,10 +24,15 @@ public class login {
      *
      * @param username
      */
-    public login(String username){
+    public Login(String username){
         this.username = username;
     }
 
+    /**
+     *
+    @OneToMany(mappedBy = "login", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<userImage> userimgset;
+    */
 
     /**
      *
