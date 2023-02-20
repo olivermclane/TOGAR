@@ -3,10 +3,9 @@ package edu.carroll.cs389application.service;
 import edu.carroll.cs389application.jpa.model.Login;
 import edu.carroll.cs389application.jpa.repo.LoginRepo;
 import edu.carroll.cs389application.web.form.LoginForm;
-import org.springframework.stereotype.Service;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -16,7 +15,6 @@ public class LoginServImpl implements LoginService {
     private final LoginRepo loginR;
 
     /**
-     *
      * @param loginRe
      */
     public LoginServImpl(LoginRepo loginRe) {
@@ -24,27 +22,26 @@ public class LoginServImpl implements LoginService {
     }
 
     /**
-     *
      * @param LoginForm the data from our login page such as the username
      * @return true if the user exist, false elsewise
      */
     @Override
-    public boolean validateUsername(LoginForm LoginForm)    {
+    public boolean validateUsername(LoginForm LoginForm) {
         log.info("User '{} has attempted login", LoginForm.getUsername());
         // grab our list
         List<Login> users = loginR.findByUsernameIgnoreCase(LoginForm.getUsername());
 
         //No users were found as such new user must be created.
-        if (users.size() == 0)  {
-            Login newuser = new Login();
-            newuser.setUsername(LoginForm.getUsername());
-            loginR.save(newuser);
-            log.debug("No user found: creating user {}", LoginForm.getUsername());
+        if (users.size() == 0) {
+            Login newUser = new Login();
+            newUser.setUsername(LoginForm.getUsername());
+            loginR.save(newUser);
+            log.info("Success: No user found: creating user {}", LoginForm.getUsername());
             return true;
         }
         //Multiple users found which shouldn't occur but must handle.
-        if (users.size() > 1)   {
-            log.error("Error: found several {} users", users.size());
+        if (users.size() > 1) {
+            log.error("Error: found several {} users, someone broke DB", users.size());
             return false;
         }
 

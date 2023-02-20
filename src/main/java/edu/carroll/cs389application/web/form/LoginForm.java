@@ -1,7 +1,7 @@
 package edu.carroll.cs389application.web.form;
 
-import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
  *
@@ -16,6 +16,18 @@ public class LoginForm {
 
     /**
      *
+     */
+    public LoginForm() {
+    }
+
+    /**
+     * @param username
+     */
+    public LoginForm(String username) {
+        this.username = username;
+    }
+
+    /**
      * @return
      */
     public String getUsername() {
@@ -23,24 +35,9 @@ public class LoginForm {
     }
 
     /**
-     *
      * @param username
      */
     public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     *
-     */
-    public LoginForm() {
-    }
-
-    /**
-     *
-     * @param username
-     */
-    public LoginForm(String username) {
         this.username = username;
     }
 }

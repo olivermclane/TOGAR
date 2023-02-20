@@ -6,34 +6,23 @@ import jakarta.persistence.*;
  *
  */
 @Entity
-@Table(name="logindata")
+@Table(name = "logindata")
 public class Login {
+
+
     /**
      *
      */
     private static final long serialVersionUID = 1L;
+    //Useful for debugging objects and errors
+    private static final String EOL = System.lineSeparator();
+    private static final String TAB = "\t";
 
     /**
      *
+     @OneToMany(mappedBy = "login", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+     private Set<userImage> userimgset;
      */
-    public Login(){
-
-    }
-
-    /**
-     *
-     * @param username
-     */
-    public Login(String username){
-        this.username = username;
-    }
-
-    /**
-     *
-    @OneToMany(mappedBy = "login", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Set<userImage> userimgset;
-    */
-
     /**
      *
      */
@@ -50,7 +39,22 @@ public class Login {
 
 
     /**
+     *
+     */
+    public Login() {
+
+    }
+
+    /**
+     * @param username
+     */
+    public Login(String username) {
+        this.username = username;
+    }
+
+    /**
      * Returns the keyvalue for the row in database
+     *
      * @return id of row in database
      */
     public Integer getId() {
@@ -59,6 +63,7 @@ public class Login {
 
     /**
      * Sets the id for the row in DB
+     *
      * @param id
      */
     public void setId(Integer id) {
@@ -67,6 +72,7 @@ public class Login {
 
     /**
      * Gets the username from the column in database
+     *
      * @return the username
      */
     public String getUsername() {
@@ -75,18 +81,14 @@ public class Login {
 
     /**
      * Use to set the username, used for creating new users or modifying usernames
+     *
      * @param username takes the old username as a parameter
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    //Useful for debugging objects and errors
-    private static final String EOL = System.lineSeparator();
-    private static final String TAB = "\t";
-
     /**
-     *
      * @return
      */
     @Override
@@ -97,5 +99,4 @@ public class Login {
         builder.append("]").append(EOL);
         return builder.toString();
     }
-
 }

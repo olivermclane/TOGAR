@@ -20,15 +20,13 @@ public class LoginController {
     private final LoginService loginService;
 
     /**
-     *
      * @param loginService
      */
-    public LoginController(LoginService loginService)    {
+    public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
     /**
-     *
      * @return
      */
     @GetMapping("/")
@@ -37,52 +35,48 @@ public class LoginController {
     }
 
     /**
-     *
      * @param model
      * @return
      */
     @GetMapping("/index")
-    public String loginGet(Model model)     {
+    public String loginGet(Model model) {
         model.addAttribute("loginForm", new LoginForm());
         return "index";
     }
 
     /**
-     *
      * @return
      */
     @GetMapping("/loginfailed")
-    public String loginFailed()     {
-       return "loginfailed";
+    public String loginFailed() {
+        return "loginfailed";
     }
 
     /**
-     *
      * @param username
      * @param model
      * @return
      */
     @GetMapping("/togar")
-    public String loginSuccess(String username, Model model)    {
+    public String loginSuccess(String username, Model model) {
         model.addAttribute("username", username);
         return "togar";
     }
 
     /**
-     *
      * @param logForm
      * @param result
      * @param attrs
      * @return
      */
     @PostMapping("/index")
-    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs){
-        if (result.hasErrors()){
+    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs) {
+        if (result.hasErrors()) {
             return "index";
         }
         //Here we don't need to worry about passwords the validateUser will
         // fail only if multiple instance of a name are found
-        if(!loginService.validateUsername(logForm)){
+        if (!loginService.validateUsername(logForm)) {
             result.addError(new ObjectError("globalError", "Username has issues with more than one instance"));
             return "index";
         }

@@ -7,7 +7,6 @@ import edu.carroll.cs389application.web.form.LoginForm;
  */
 public interface LoginService {
     /**
-     *
      * @param form
      * @return
      */
