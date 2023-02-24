@@ -11,10 +11,6 @@
     <p>Select images below from your gallery</p>
 </div>
 <div class="upload">
-    <form th:action="@{/upload}" th:object="${fileForm}" method="post" enctype="multipart/form-data">
-        <input type="file" th:field="*{file}" />
-        <input type="submit" value="Upload" />
-    </form>
 </div>
 </body>
 </html>
