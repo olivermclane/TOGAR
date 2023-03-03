@@ -2,6 +2,9 @@ package edu.carroll.cs389application.jpa.model;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  */
@@ -37,12 +40,14 @@ public class Login {
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
+    private List<UserImage> userImages;
 
     /**
      *
      */
     public Login() {
-
+        // default constructor required by JPA
     }
 
     /**
@@ -50,6 +55,7 @@ public class Login {
      */
     public Login(String username) {
         this.username = username;
+        this.userImages = new ArrayList<>();
     }
 
     /**

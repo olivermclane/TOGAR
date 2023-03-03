@@ -1,7 +1,8 @@
 package edu.carroll.cs389application.web.controller;
 
-import edu.carroll.cs389application.service.LoginService;
+import edu.carroll.cs389application.service.UserService;
 import edu.carroll.cs389application.web.form.LoginForm;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,12 +18,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
  */
 @Controller
 public class LoginController {
-    private final LoginService loginService;
+    private final UserService loginService;
 
     /**
      * @param loginService
      */
-    public LoginController(LoginService loginService) {
+    public LoginController(UserService loginService) {
         this.loginService = loginService;
     }
 
@@ -55,9 +56,8 @@ public class LoginController {
     /**
      * @param username
      * @param model
-     * @return
      */
-    @GetMapping("/togar")
+    @GetMapping("/loginSuccess")
     public String loginSuccess(String username, Model model) {
         model.addAttribute("username", username);
         return "togar";
@@ -70,7 +70,7 @@ public class LoginController {
      * @return
      */
     @PostMapping("/index")
-    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs) {
+    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs, HttpSession session) {
         if (result.hasErrors()) {
             return "index";
         }
@@ -81,8 +81,13 @@ public class LoginController {
             return "index";
         }
 
-        //this will handle redirecting to the users to there "unique" loggedin page.
         attrs.addAttribute("Username", logForm.getUsername());
+
+        //should close session on browser close
+        session.setMaxInactiveInterval(-1);
+
+        session.setAttribute("username", logForm.getUsername());
+        //this will handle redirecting to the users to there "unique" loggedin page.
         return "redirect:/togar";
     }
 

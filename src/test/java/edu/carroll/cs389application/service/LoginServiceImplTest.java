@@ -14,7 +14,7 @@ public class LoginServiceImplTest {
     private static final String username = "testuser";
 
     @Autowired
-    private LoginService loginService;
+    private UserService loginService;
 
     @BeforeEach
     public void doBeforeTest() {

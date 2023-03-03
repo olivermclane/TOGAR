@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class LoginServImpl implements LoginService {
-    private static final Logger log = LoggerFactory.getLogger(LoginServImpl.class);
+public class UserServiceImpl implements UserService {
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final LoginRepo loginR;
 
     /**
      * @param loginRe
      */
-    public LoginServImpl(LoginRepo loginRe) {
+    public UserServiceImpl(LoginRepo loginRe) {
         this.loginR = loginRe;
     }
 
@@ -51,6 +51,10 @@ public class LoginServImpl implements LoginService {
 
     }
 
+    @Override
+    public Login loginFromUsername(String userName){
+        return loginR.findByUsernameIgnoreCase(userName).get(0);
+    }
 }
 
 

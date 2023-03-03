@@ -7,33 +7,40 @@ import org.springframework.web.multipart.MultipartFile;
 @Entity
 @Table(name = "userImage")
 public class UserImage {
-    @Column(name = "imagename", nullable = false)
-    private final String imageName;
+    @Column(name = "image_name", nullable = false)
+    private String imageName;
     @Column(name = "extension", nullable = false)
-    private final String extension;
+    private String extension;
     @Column(name = "location", nullable = false)
-    private final String imageLocation;
-    @Column(name = "imagesize", nullable = false)
-    private final long imageSize;
+    private String imageLocation;
+    @Column(name = "image_size", nullable = false)
+    private long imageSize;
     @Column(name = "width", nullable = false)
-    private final int imageWidth;
+    private int imageWidth;
     @Column(name = "height", nullable = false)
-    private final int imageHeight;
+    private int imageHeight;
     @Transient
     private MultipartFile imageFile;
     @Id
     @GeneratedValue
     private Integer id;
-    @ManyToOne
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "login_id")
     private Login user;
 
-    public UserImage(String imageName, String extension, String imageLocation, long imageSize, int imageHeight, int imageWidth) {
+    public UserImage() {
+        // default constructor required by JPA
+    }
+
+    public UserImage(String imageName, String extension, String imageLocation, long imageSize, int imageHeight, int imageWidth, Login login) {
         this.imageName = imageName;
         this.extension = extension;
         this.imageLocation = imageLocation;
         this.imageSize = imageSize;
         this.imageHeight = imageHeight;
         this.imageWidth = imageWidth;
+        this.user = login;
     }
 
     public Integer getId() {

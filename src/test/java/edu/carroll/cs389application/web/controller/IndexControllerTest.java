@@ -1,6 +1,6 @@
 package edu.carroll.cs389application.web.controller;
 
-import edu.carroll.cs389application.service.LoginService;
+import edu.carroll.cs389application.service.UserService;
 import edu.carroll.cs389application.web.form.LoginForm;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class IndexControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private LoginService loginService;
+    private UserService loginService;
 
     @Test
     public void indexTest() throws Exception {

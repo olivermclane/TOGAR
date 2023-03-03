@@ -6,14 +6,18 @@
 
 </head>
 <body>
+<h2>These are your Images</h2>
+<p>Select images below from your gallery</p>
 <div class="gallery">
-    <h2>These are your Images</h2>
-    <p>Select images below from your gallery</p>
+    <div th:each="image : ${imageLocations}">
+        <img th:src="${image}">
+    </div>
 </div>
 <div class="upload">
-    <form th:action="@{/upload}" th:object="${fileForm}" method="post" enctype="multipart/form-data">
-        <input type="file" th:field="*{file}" />
-        <input type="submit" value="Upload" />
+    <form th:action="@{/upload}" th:object="${fileForm}" method="POST" enctype="multipart/form-data">
+        <input type="hidden" name="username" th:value="${Username}" />
+        <input type="file" name="imageFile"/>
+        <input type="submit" value="Upload"/>
     </form>
 </div>
 </body>
