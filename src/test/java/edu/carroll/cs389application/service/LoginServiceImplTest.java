@@ -25,6 +25,7 @@ public class LoginServiceImplTest {
         loginService.validateUsername(testForm);
     }
 
+    //While there should be more tests here, it's impossible for the users to do anything other than this
     @Test
     public void validatedExistingUserSuccessfulTest() {
         final LoginForm testForm = new LoginForm(username);

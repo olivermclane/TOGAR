@@ -75,8 +75,8 @@ public class ImageControllerTest {
 
     @Test
     public void testImageGallery() throws Exception {
-        List<String> imageLocations = Arrays.asList("/path/to/" +
-                "image1.jpg", "/path/to/image2.jpg");
+        List<String> imageLocations = Arrays.asList("./images/" + userService.loginFromUsername("testuser").getId()+
+                "/image1.jpg", "./images/" + + userService.loginFromUsername("testuser").getId()+ "/image2.jpg");
 
         Mockito.when(imageService.pullImages(Mockito.any(Login.class))).thenReturn(imageLocations);
 
