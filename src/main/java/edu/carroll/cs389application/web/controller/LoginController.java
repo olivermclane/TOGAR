@@ -72,7 +72,7 @@ public class LoginController {
     @PostMapping("/index")
     public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs, HttpSession session) {
         if (result.hasErrors()) {
-            return "index";
+            return  "index";
         }
         //Here we don't need to worry about passwords the validateUser will
         // fail only if multiple instance of a name are found

@@ -4,14 +4,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>TOGAR Login Page</title>
     <link rel="stylesheet" href="templatescss/login.css">
-
 </head>
 <body>
 <div id="login-form-wrap">
     <h2>Welcome to TOGAR</h2>
     <form id="login-form" action="#" th:action="@{/index}" th:object="${loginForm}" method="post">
         <p>
-            <input type="text" th:field="*{username}" placeholder="Username" id="username" name="username" required><span></span>
+            <input type="text" th:field="*{username}" placeholder="Username" id="username" name="username" required><span th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></span>
         </p>
         <p>
             <button type="submit">Login</button>

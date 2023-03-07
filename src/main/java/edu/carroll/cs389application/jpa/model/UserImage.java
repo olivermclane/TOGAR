@@ -83,4 +83,8 @@ public class UserImage {
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
     }
+
+    public Login getUser() {
+        return user;
+    }
 }

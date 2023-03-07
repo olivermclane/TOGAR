@@ -9,8 +9,8 @@
 <h2>These are your Images</h2>
 <p>Select images below from your gallery</p>
 <div class="gallery">
-    <div th:each="image : ${imageLocations}">
-        <img th:src="${image}">
+    <div th:each="imageData : ${images}">
+        <img th:src="@{|data:image/${#strings.substring(imageData, 0, #strings.indexOf(imageData, '/') + 1)};base64,${#strings.substring(imageData, #strings.indexOf(imageData, '/') + 1)}|}" />
     </div>
 </div>
 <div class="upload">

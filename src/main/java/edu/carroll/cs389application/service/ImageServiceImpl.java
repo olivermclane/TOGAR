@@ -4,7 +4,6 @@ import edu.carroll.cs389application.jpa.model.Login;
 import edu.carroll.cs389application.jpa.model.UserImage;
 import edu.carroll.cs389application.jpa.repo.ImagesRepo;
 import edu.carroll.cs389application.web.form.ImageForm;
-import org.apache.juli.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -13,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -21,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -91,19 +90,17 @@ public class ImageServiceImpl implements ImageService {
     //there are two ways to go about this, we could either pass a list of locations for the images and have the controller go
     // through and loaded the images which could be bad practice or have this return a list of imageLocations;
     @Override
-    public List<Path> pullImages(Login user) {
-        List<UserImage> images = imageRepo.findByid(user.getId());
+    public List<String> pullImages(Login user) throws IOException {
+        List<UserImage> images = imageRepo.findByUser(user);
         log.info("User ID: {}",user.getId());
         log.info("Images list size: {}", images.size());
-        List<Path> imageLocations = new ArrayList<>();
+        List<String> imageLocations = new ArrayList<>();
 
-        //Make this return a list of images after running several different checks,
-        // though (double check) our checks should occur on the form and database input layers.
         for (int i = 0; i < images.size(); i++) {
-            imageLocations.add(Path.of(images.get(i).getImageLocation()+images.get(i).getImageName()));
-            log.info("Images pulled: {} ",images.get(i).getImageLocation()+images.get(i).getImageName());
+            imageLocations.add(images.get(i).getImageLocation() + images.get(i).getImageName());
+            log.info("Images pulled: {} ", imageLocations.get(i));
         }
-        return imageLocations;
-    }
 
+        return  imageLocations;
+    }
 }
