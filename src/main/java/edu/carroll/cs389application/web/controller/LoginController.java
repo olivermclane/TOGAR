@@ -81,8 +81,6 @@ public class LoginController {
             return "index";
         }
 
-        attrs.addAttribute("Username", logForm.getUsername());
-
         //should close session on browser close
         session.setMaxInactiveInterval(-1);
 

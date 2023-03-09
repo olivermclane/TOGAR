@@ -28,6 +28,7 @@ public class ImageForm {
         return imageFile;
     }
 
+
     public void setImageFile(MultipartFile newImage) {
         if (!imageFile.getContentType().startsWith("image/")) {
             throw new IllegalArgumentException("Only image files are allowed");

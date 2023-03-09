@@ -3,25 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Togar</title>
-
 </head>
 <body>
 <h2>These are your Images</h2>
 <div class="gallery">
-    <div th:each="imageData : ${images}">
-        <img th:src="@{|data:image/${#strings.substring(imageData, 0, #strings.indexOf(imageData, '/') + 1)};base64,${#strings.substring(imageData, #strings.indexOf(imageData, '/') + 1)}|}" />
+    <div th:each="image : ${images}">
+        <img th:src="${image.first}" th:alt="Image" th:attr="data-content-type='jpeg'">
     </div>
+
 </div>
-<p>Below you can upload imagefile (.jpg and .png)</p>
+<p>Below you can upload image files (.jpg and .png)</p>
 <div class="upload">
     <form th:action="@{/upload}" th:object="${fileForm}" method="POST" enctype="multipart/form-data">
         <input type="hidden" name="username" th:value="${Username}" />
         <input type="file" name="imageFile"/>
+
         <input type="submit" value="Upload"/>
     </form>
 </div>
 </body>
 </html>
+
 
 
 

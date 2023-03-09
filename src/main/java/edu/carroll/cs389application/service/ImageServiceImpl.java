@@ -6,13 +6,20 @@ import edu.carroll.cs389application.jpa.repo.ImagesRepo;
 import edu.carroll.cs389application.web.form.ImageForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -89,17 +96,24 @@ public class ImageServiceImpl implements ImageService {
     //there are two ways to go about this, we could either pass a list of locations for the images and have the controller go
     // through and loaded the images which could be bad practice or have this return a list of imageLocations;
     @Override
-    public List<String> pullImages(Login user) throws IOException {
+    public List<Pair<InputStream, String>> pullImages(Login user) throws IOException {
         List<UserImage> images = imageRepo.findByUser(user);
-        log.info("User ID: {}",user.getId());
+        log.info("User ID: {}", user.getId());
         log.info("Images list size: {}", images.size());
-        List<String> imageLocations = new ArrayList<>();
+        List<Pair<InputStream, String>> imageStreams = new ArrayList<>();
 
-        for (int i = 0; i < images.size(); i++) {
-            imageLocations.add(images.get(i).getImageLocation() + images.get(i).getImageName());
-            log.info("Images pulled: {} ", imageLocations.get(i));
+        for (UserImage image : images) {
+            String imageLocation = image.getImageLocation() + image.getImageName();
+            log.info("Image pulled: {} ", imageLocation);
+            String extension = image.getImageName().substring(image.getImageName().lastIndexOf(".") + 1);
+            if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+                InputStream inputStream = new FileInputStream(imageLocation);
+                String contentType = extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+                imageStreams.add(Pair.of(inputStream, contentType));
+            }
         }
 
-        return  imageLocations;
+        return imageStreams;
     }
+
 }

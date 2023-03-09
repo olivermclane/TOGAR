@@ -4,7 +4,15 @@ import edu.carroll.cs389application.service.ImageServiceImpl;
 import edu.carroll.cs389application.service.UserService;
 import edu.carroll.cs389application.service.ImageService;
 import edu.carroll.cs389application.web.form.ImageForm;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import org.apache.commons.io.IOUtils;
+import org.springframework.core.io.*;
+import org.springframework.data.util.Pair;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,10 +26,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 
@@ -48,29 +59,41 @@ public class ImageController {
         log.info("Started upload {}", username);
 
         //This may not be need after view logs.
-        fileForm.setImageFile(file);
-        imageService.saveImage(fileForm, userService.loginFromUsername(username));
-        return "redirect:/togar?Username=" + username;
+        try{
+            fileForm.setImageFile(file);
+            imageService.saveImage(fileForm, userService.loginFromUsername(username));
+            return "redirect:/togar";
+        }catch(Exception e) {
+            String validate = e.getMessage();
+
+            return "togar";
+        }
     }
 
-    @GetMapping("/togar")
-    public String imageGallery(Model model, @RequestParam("Username") String username) throws IOException {
-        List<String> imageLocations = imageService.pullImages(userService.loginFromUsername(username));
 
-        List<byte[]> imageDataList = new ArrayList<>();
-        for (String imageLocation : imageLocations) {
-            Path imagePath = Paths.get(imageLocation);
-            try {
-                byte[] imageData = Files.readAllBytes(imagePath);
-                imageDataList.add(imageData);
-                log.info("Image location: {}", imageLocation);
-            } catch (IOException e) {
-                log.error("There was a error converting to bytes of the image");
+    @GetMapping("/togar")
+    public String imageGallery(Model model, HttpSession session) throws IOException {
+        String username = (String) session.getAttribute("username");
+        List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
+
+        List<Pair<String, String>> images = new ArrayList<>();
+        for (Pair<InputStream, String> pair : imageStreams) {
+            String contentType = pair.getSecond();
+            if (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/png")) {
+                InputStream inputStream = pair.getFirst();
+                byte[] byteArray = IOUtils.toByteArray(inputStream);
+                String imageBase64 = Base64.getEncoder().encodeToString(byteArray);
+                String imageSrc = "data:" + contentType + ";base64," + imageBase64;
+                images.add(Pair.of(imageSrc, contentType));
+                log.info("Image content type: {}", contentType);
             }
         }
 
-        model.addAttribute("images", imageDataList);
+        model.addAttribute("images", images);
 
         return "togar";
     }
+
+
+
 }
