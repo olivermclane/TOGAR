@@ -23,4 +23,6 @@ public interface ImageService {
     void saveImageFile(UserImage userImage, MultipartFile file) throws IOException;
 
     List<Pair<InputStream, String>> pullImages(Login user) throws IOException;
+
+    String validateFile (MultipartFile file);
 }

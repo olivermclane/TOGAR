@@ -56,18 +56,18 @@ public class ImageController {
             return "togar";
         }
 
-        log.info("Started upload {}", username);
-
-        //This may not be need after view logs.
-        try{
-            fileForm.setImageFile(file);
-            imageService.saveImage(fileForm, userService.loginFromUsername(username));
-            return "redirect:/togar";
-        }catch(Exception e) {
-            String validate = e.getMessage();
-
+        if(imageService.validateFile(file) != "validfile"){
+            String fileError = imageService.validateFile(file);
+            log.error(fileError);
+            model.addAttribute("fileError", fileError);
             return "togar";
         }
+
+        log.info("Started upload {}", username);
+
+        fileForm.setImageFile(file);
+        imageService.saveImage(fileForm, userService.loginFromUsername(username));
+        return "redirect:/togar";
     }
 
 

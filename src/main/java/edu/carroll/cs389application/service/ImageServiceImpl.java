@@ -54,8 +54,7 @@ public class ImageServiceImpl implements ImageService {
         String extension = StringUtils.getFilenameExtension(imageName);
         long imageSize = imageFile.getSize();
 
-        //Still learning image processing libaries
-        //one thought here might work needs testing
+        //Image processing libarary
         BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
         int imageHeight = bImage.getHeight();
         int imageWidth = bImage.getWidth();
@@ -75,10 +74,8 @@ public class ImageServiceImpl implements ImageService {
             //Create out if statements for different types of IOExceptions and log them
             if (e instanceof FileAlreadyExistsException) {
                 log.error("A file of that name already exists.");
-                throw new RuntimeException("A file of that name already exists.");
             }
             log.error("Problem saving file follow exception");
-            throw new RuntimeException(e.getMessage());
         }
     }
 
@@ -114,6 +111,24 @@ public class ImageServiceImpl implements ImageService {
         }
 
         return imageStreams;
+    }
+
+    @Override
+    public String validateFile(MultipartFile file){
+        boolean VirusBoolean = false;
+        if (file == null) {
+            return "Invalid File: File is null";
+        }
+        if (file.isEmpty()){
+            return "Invalid File: Content of file is empty, or you didn't upload a file";
+        }
+        if (file.getSize() > 10 * 1024 * 1024){
+            return "Invalid File Size: Validate image size is less than 10MB";
+        }
+        if(!file.getContentType().startsWith("image/")){
+            return "Invalid File Type: Validate image types are PNG and JPEG";
+        }
+        return "validfile";
     }
 
 }
