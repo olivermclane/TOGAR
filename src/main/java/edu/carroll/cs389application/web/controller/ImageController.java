@@ -73,6 +73,13 @@ public class ImageController {
 
     @GetMapping("/togar")
     public String imageGallery(Model model, HttpSession session) throws IOException {
+        if(session == null){
+            return "redirect:/index";
+        }
+        if (session.getAttribute("username") == null){
+            return "redirect:/index";
+        }
+
         String username = (String) session.getAttribute("username");
         List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 
