@@ -27,10 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLConnection;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -51,18 +47,18 @@ public class ImageController {
     @PostMapping("/upload")
     public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) throws IOException {
         String username = (String) session.getAttribute("username");
+        passImages(model, username);
 
         if(result.hasErrors()){
             return "togar";
         }
 
-        if(imageService.validateFile(file) != "validfile"){
-            String fileError = imageService.validateFile(file);
-            log.error(fileError);
+        if(!imageService.validateFile(file).equals("validfile")){
+            ImageServiceImpl.ErrorCode fileError = imageService.validateFile(file);
+            log.debug(fileError.toString());
             model.addAttribute("fileError", fileError);
             return "togar";
         }
-
         log.info("Started upload {}", username);
 
         fileForm.setImageFile(file);
@@ -81,6 +77,12 @@ public class ImageController {
         }
 
         String username = (String) session.getAttribute("username");
+        passImages(model, username);
+
+        return "togar";
+    }
+
+    private void passImages(Model model, String username) throws IOException{
         List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 
         List<Pair<String, String>> images = new ArrayList<>();
@@ -97,10 +99,7 @@ public class ImageController {
         }
 
         model.addAttribute("images", images);
-
-        return "togar";
     }
-
 
 
 }

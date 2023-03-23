@@ -53,15 +53,6 @@ public class LoginController {
         return "loginfailed";
     }
 
-    /**
-     * @param username
-     * @param model
-     */
-    @GetMapping("/loginSuccess")
-    public String loginSuccess(String username, Model model) {
-        model.addAttribute("username", username);
-        return "togar";
-    }
 
     /**
      * @param logForm

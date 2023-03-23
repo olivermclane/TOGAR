@@ -32,6 +32,25 @@ public class ImageServiceImpl implements ImageService {
     private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
     private final ImagesRepo imageRepo;
 
+    public enum ErrorCode{
+        INVALID_FILE_TYPE("Invalid File Type: Validate image types are PNG and JPEG"),
+        INVALID_FILE_EMPTY("Invalid File: Content of file is empty, or you didn't upload a file"),
+        INVALID_FILE_ISNULL("Invalid File: File is null, make sure you upload a valid file"),
+        INVALID_FILE_SIZE("Invalid File Size: Validate image size is less than 10MB"),
+        VALID_FILE("validFile");
+
+
+        private String error;
+
+        ErrorCode(String error){
+            this.error = error;
+        }
+
+        public String toString(){
+            return error;
+        }
+    }
+
 
     /**
      *
@@ -114,21 +133,24 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public String validateFile(MultipartFile file){
-        boolean VirusBoolean = false;
+    public ErrorCode validateFile(MultipartFile file){
         if (file == null) {
-            return "Invalid File: File is null";
+            return ErrorCode.INVALID_FILE_ISNULL;
         }
         if (file.isEmpty()){
-            return "Invalid File: Content of file is empty, or you didn't upload a file";
+            return ErrorCode.INVALID_FILE_EMPTY;
         }
         if (file.getSize() > 10 * 1024 * 1024){
-            return "Invalid File Size: Validate image size is less than 10MB";
+            return ErrorCode.INVALID_FILE_SIZE;
         }
         if(!file.getContentType().startsWith("image/")){
-            return "Invalid File Type: Validate image types are PNG and JPEG";
+            return ErrorCode.INVALID_FILE_TYPE;
         }
-        return "validfile";
+        return ErrorCode.VALID_FILE;
     }
 
+    //This method is for testing purposes only
+    public List<UserImage> loadUserImagesbyUserID (Login user) {
+        return imageRepo.findByUser(user);
+    }
 }

@@ -18,11 +18,21 @@ public interface ImageService {
     /*
      *
      */
+    enum ErrorCode{
+        INVALID_FILE_TYPE,
+        INVALID_FILE_EMPTY,
+        INVALID_FILE_ISNULL,
+        INVALID_FILE_SIZE,
+        VALID_FILE;
+    }
+
     void saveImage(ImageForm imageForm, Login user) throws IOException;
 
     void saveImageFile(UserImage userImage, MultipartFile file) throws IOException;
 
     List<Pair<InputStream, String>> pullImages(Login user) throws IOException;
 
-    String validateFile (MultipartFile file);
+    ImageServiceImpl.ErrorCode validateFile (MultipartFile file);
+
+    List<UserImage> loadUserImagesbyUserID (Login user);
 }

@@ -1,90 +1,114 @@
 package edu.carroll.cs389application.web.controller;
 
-import edu.carroll.cs389application.jpa.model.Login;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
+
+import jakarta.servlet.http.HttpSession;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+
 import edu.carroll.cs389application.service.ImageService;
 import edu.carroll.cs389application.service.UserService;
+import edu.carroll.cs389application.service.ImageServiceImpl.ErrorCode;
 import edu.carroll.cs389application.web.form.ImageForm;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-@WebMvcTest(ImageController.class)
 public class ImageControllerTest {
-    @Autowired
-    private MockMvc mockMvc;
 
-    @MockBean
-    private ImageService imageService;
+    private ImageService imageServiceMock;
+    private UserService userServiceMock;
+    private ImageController controller;
+    private Model modelMock;
+    private HttpSession sessionMock;
 
-    @MockBean
-    private UserService userService;
-
-    @Test
-    public void testHandleFileUpload() throws Exception {
-        MockMultipartFile file = new MockMultipartFile("imageFile", "test.png", "image/png", "test".getBytes());
-        ImageForm form = new ImageForm(file);
-
-
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
-                        .file(file)
-                        .flashAttr("fileForm", form)
-                        .sessionAttr("username", "testuser"))
-                .andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/togar?Username=testuser"))
-                .andExpect(MockMvcResultMatchers.flash().attributeCount(0));
-
-        // assert that the image has been saved in the database -- Need nates help
-        //My thoguh
-
-        // assert that the image file has been saved in the correct location
-        String expectedPath = "./images/ + " + userService.loginFromUsername("testuser").getId()+"/test.png";
-        Path imagePath = Paths.get(expectedPath);
-        assertTrue(Files.exists(imagePath));
-        assertArrayEquals("test".getBytes(), Files.readAllBytes(imagePath));
+    @BeforeEach
+    public void setUp() {
+        imageServiceMock = mock(ImageService.class);
+        userServiceMock = mock(UserService.class);
+        modelMock = mock(Model.class);
+        sessionMock = mock(HttpSession.class);
+        controller = new ImageController(imageServiceMock, userServiceMock);
     }
 
     @Test
-    public void testHandleFileUploadWithInvalidInput() throws Exception {
-        MockMultipartFile file = new MockMultipartFile("imageFile", "test.png", "image/png", new byte[0]);
-        ImageForm form = new ImageForm(file);
+    public void testDisplayImagesWithoutSession() throws IOException {
+        // Given
+        when(sessionMock.getAttribute("username")).thenReturn(null);
+        MultipartFile fileMock = mock(MultipartFile.class);
+        BindingResult bindingResultMock = mock(BindingResult.class);
 
-        mockMvc.perform(MockMvcRequestBuilders.multipart("/upload")
-                        .file(file)
-                        .flashAttr("fileForm", form)
-                        .sessionAttr("username", "testuser"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("togar"))
-                .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("fileForm", "imageFile"));
+        // When
+        String viewName = controller.imageGallery(modelMock, sessionMock);
+
+        // Then
+        assertThat(viewName).isEqualTo("redirect:/index");
     }
 
     @Test
-    public void testImageGallery() throws Exception {
-        List<String> imageLocations = Arrays.asList("./images/" + userService.loginFromUsername("testuser").getId()+
-                "/image1.jpg", "./images/" + + userService.loginFromUsername("testuser").getId()+ "/image2.jpg");
+    public void testDisplayImagesWithoutUsername() throws IOException {
+        // Given
+        when(sessionMock.getAttribute("username")).thenReturn("testuser");
+        MultipartFile fileMock = mock(MultipartFile.class);
+        BindingResult bindingResultMock = mock(BindingResult.class);
 
-        Mockito.when(imageService.pullImages(Mockito.any(Login.class))).thenReturn(imageLocations);
+        //When
+        String viewName = controller.imageGallery(modelMock, sessionMock);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/togar")
-                        .param("Username", "testuser"))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.view().name("togar"))
-                .andExpect(MockMvcResultMatchers.model().attributeExists("images"))
-                .andExpect(MockMvcResultMatchers.model().attribute("images", Matchers.hasSize(2)));
+        // Then
+        assertThat(viewName).isEqualTo("togar");
     }
+
+    @Test
+    public void testHandleFileUploadWithBindingError() throws IOException {
+        // Given
+        BindingResult bindingResultMock = mock(BindingResult.class);
+        when(bindingResultMock.hasErrors()).thenReturn(true);
+        MultipartFile fileMock = mock(MultipartFile.class);
+
+        // When
+        String viewName = controller.handleFileUpload(new ImageForm(fileMock), fileMock, bindingResultMock, modelMock, sessionMock);
+
+        // Then
+        assertThat(viewName).isEqualTo("togar");
+    }
+
+    @Test
+    public void testHandleFileUploadWithInvalidFile() throws IOException {
+        // Given
+        MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "not an image".getBytes());
+        when(imageServiceMock.validateFile(fileMock)).thenReturn(ErrorCode.INVALID_FILE_TYPE);
+        MultipartFile multipartFile = (MultipartFile) fileMock;
+        BindingResult bindingResultMock = mock(BindingResult.class);
+
+
+        // When
+        String viewName = controller.handleFileUpload(new ImageForm(multipartFile), multipartFile, bindingResultMock, modelMock, sessionMock);
+
+        // Then
+        assertThat(viewName).isEqualTo("togar");
+    }
+
+    @Test
+    public void testHandleFileUploadWithValidFile() throws IOException {
+        // Given
+        MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "test".getBytes());
+        when(imageServiceMock.validateFile(fileMock)).thenReturn(ErrorCode.VALID_FILE);
+        assertThat(imageServiceMock.validateFile(fileMock)).isEqualTo(ErrorCode.VALID_FILE);
+        MultipartFile multipartFile = (MultipartFile) fileMock;
+        BindingResult bindingResultMock = mock(BindingResult.class);
+
+        // When
+        String viewName = controller.handleFileUpload(new ImageForm(multipartFile), multipartFile, bindingResultMock, modelMock, sessionMock);
+
+        // Then
+        assertThat(viewName).isEqualTo("togar");
+    }
+
 }
