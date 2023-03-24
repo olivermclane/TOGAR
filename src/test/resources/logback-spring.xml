@@ -7,14 +7,14 @@
     </appender>
 
     <!-- Reduce DB startup chatter -->
-    <logger name="org.hibernate" level="WARN" />
-    <logger name="com.zaxxer.hikari" level="WARN" />
+    <logger name="org.hibernate" level="WARN"/>
+    <logger name="com.zaxxer.hikari" level="WARN"/>
 
     <!--- Spring boot has a lot of startup noise as well -->
-    <logger name="org.springframework" level="WARN" />
+    <logger name="org.springframework" level="WARN"/>
 
     <!-- Increase verbosity for local classes during testing -->
-    <logger name="edu.carroll.cs389" level="DEBUG" />
+    <logger name="edu.carroll.cs389" level="DEBUG"/>
 
     <!-- Default level is INFO -->
     <root level="INFO">

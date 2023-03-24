@@ -11,9 +11,10 @@ public class LoginForm {
      *
      */
     @NotNull(message = "Username cannot be null")
-    @Size(min = 8,  message = "Username must be at least 9 characters long")
+    @Size(min = 8, message = "Username must be at least 9 characters long")
     @Size(max = 30, message = "Username must be smaller than 30 characters long")
     private String username;
+
 
     /**
      *

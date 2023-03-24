@@ -12,5 +12,6 @@ public interface UserService {
      * @return
      */
     boolean validateUsername(LoginForm form);
+
     Login loginFromUsername(String userName);
 }

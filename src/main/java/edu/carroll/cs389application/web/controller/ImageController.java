@@ -1,28 +1,21 @@
 package edu.carroll.cs389application.web.controller;
 
+import edu.carroll.cs389application.service.ImageService;
 import edu.carroll.cs389application.service.ImageServiceImpl;
 import edu.carroll.cs389application.service.UserService;
-import edu.carroll.cs389application.service.ImageService;
 import edu.carroll.cs389application.web.form.ImageForm;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.apache.commons.io.IOUtils;
-import org.springframework.core.io.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.util.Pair;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -49,11 +42,11 @@ public class ImageController {
         String username = (String) session.getAttribute("username");
         passImages(model, username);
 
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "togar";
         }
 
-        if(!imageService.validateFile(file).equals("validfile")){
+        if (!imageService.validateFile(file).equals("validfile")) {
             ImageServiceImpl.ErrorCode fileError = imageService.validateFile(file);
             log.debug(fileError.toString());
             model.addAttribute("fileError", fileError);
@@ -69,10 +62,10 @@ public class ImageController {
 
     @GetMapping("/togar")
     public String imageGallery(Model model, HttpSession session) throws IOException {
-        if(session == null){
+        if (session == null) {
             return "redirect:/index";
         }
-        if (session.getAttribute("username") == null){
+        if (session.getAttribute("username") == null) {
             return "redirect:/index";
         }
 
@@ -82,7 +75,7 @@ public class ImageController {
         return "togar";
     }
 
-    private void passImages(Model model, String username) throws IOException{
+    private void passImages(Model model, String username) throws IOException {
         List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 
         List<Pair<String, String>> images = new ArrayList<>();
