@@ -46,7 +46,7 @@ public class ImageController {
             return "togar";
         }
 
-        if (!imageService.validateFile(file).equals("validfile")) {
+        if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
             ImageServiceImpl.ErrorCode fileError = imageService.validateFile(file);
             log.debug(fileError.toString());
             model.addAttribute("fileError", fileError);
