@@ -75,6 +75,13 @@ public class ImageController {
         return "togar";
     }
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/index";
+    }
+
+
     private void passImages(Model model, String username) throws IOException {
         List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 
