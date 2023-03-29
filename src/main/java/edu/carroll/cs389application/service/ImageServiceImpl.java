@@ -42,7 +42,7 @@ public class ImageServiceImpl implements ImageService {
     public void saveImage(ImageForm imageForm, Login user) {
         MultipartFile imageFile = imageForm.getImageFile();
         if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
-            log.error("User uploaded invalid file without using form validation isnt valid")
+            log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
         } else {
             String uploadDirectory = "./images/";
 
