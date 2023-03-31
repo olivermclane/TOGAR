@@ -92,6 +92,13 @@ public class ImageController {
         return "togar";
     }
 
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.invalidate();
+        return "redirect:/index";
+    }
+
     /**
      *
      * @param model

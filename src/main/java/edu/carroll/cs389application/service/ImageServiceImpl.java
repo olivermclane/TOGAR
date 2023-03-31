@@ -45,38 +45,42 @@ public class ImageServiceImpl implements ImageService {
      * @throws IOException
      */
     @Override
-    public void saveImage(ImageForm imageForm, Login user) throws IOException {
+    public void saveImage(ImageForm imageForm, Login user) {
         MultipartFile imageFile = imageForm.getImageFile();
-        String uploadDirectory = "./images/";
+        if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
+            log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
+        } else {
+            String uploadDirectory = "./images/";
 
-        //Seting up the properties for a UserImage object
-        String imageName = imageFile.getOriginalFilename();
-        String imageLocation = uploadDirectory + user.getId() + "/";
-        String extension = StringUtils.getFilenameExtension(imageName);
-        long imageSize = imageFile.getSize();
-
-        //Image processing library
-        BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
-        int imageHeight = bImage.getHeight();
-        int imageWidth = bImage.getWidth();
-
-        //creating userImage
-        UserImage uImage = new UserImage(imageName, extension, imageLocation, imageSize, imageHeight, imageWidth, user);
-        uImage.setImageFile(imageFile);
-
-        //Saving UserImage object to DB and to the location on the local DB
-
-
-        try {
-            saveImageFile(uImage, imageFile);
-            imageRepo.save(uImage);
-            log.info("Success: Image meta data created in user_image");
-        } catch (IOException e) {
-            //Create out if statements for different types of IOExceptions and log them
-            if (e instanceof FileAlreadyExistsException) {
-                log.error("A file of that name already exists.");
+            //Seting up the properties for a UserImage object
+            String imageName = imageFile.getOriginalFilename();
+            String imageLocation = uploadDirectory + user.getId() + "/";
+            String extension = StringUtils.getFilenameExtension(imageName);
+            long imageSize = imageFile.getSize();
+    
+            //Image processing library
+            BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
+            int imageHeight = bImage.getHeight();
+            int imageWidth = bImage.getWidth();
+    
+            //creating userImage
+            UserImage uImage = new UserImage(imageName, extension, imageLocation, imageSize, imageHeight, imageWidth, user);
+            uImage.setImageFile(imageFile);
+    
+            //Saving UserImage object to DB and to the location on the local DB
+    
+    
+            try {
+                saveImageFile(uImage, imageFile);
+                imageRepo.save(uImage);
+                log.info("Success: Image meta data created in user_image");
+            } catch (IOException e) {
+                //Create out if statements for different types of IOExceptions and log them
+                if (e instanceof FileAlreadyExistsException) {
+                    log.error("A file of that name already exists.");
+                }
+                log.error("Problem saving file follow exception");
             }
-            log.error("Problem saving file follow exception");
         }
     }
 

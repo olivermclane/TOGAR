@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.apache.commons.text.StringEscapeUtils;
+
 
 /**
  *
@@ -61,24 +63,28 @@ public class LoginController {
      * @return
      */
     @PostMapping("/index")
-    public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs, HttpSession session) {
-        if (result.hasErrors()) {
-            return "index";
-        }
-        //Here we don't need to worry about passwords the validateUser will
-        // fail only if multiple instance of a name are found
-        if (!loginService.validateUsername(logForm)) {
-            result.addError(new ObjectError("globalError", "Username has issues with more than one instance"));
-            return "index";
-        }
-
-        //should close session on browser close
-        session.setMaxInactiveInterval(-1);
-
-        session.setAttribute("username", logForm.getUsername());
-        //this will handle redirecting to the users to there "unique" loggedin page.
-        return "redirect:/togar";
+public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult result, RedirectAttributes attrs, HttpSession session) {
+    if (result.hasErrors()) {
+        return "index";
     }
 
+    // Sanitize the username input
+    String sanitizedUsername = StringEscapeUtils.stripHtml4(logForm.getUsername());
+
+    //Here we don't need to worry about passwords the validateUser will
+    // fail only if multiple instance of a name are found
+    if (!loginService.validateUsername(sanitizedUsername)) {
+        result.addError(new ObjectError("globalError", "Username has issues with more than one instance"));
+        return "index";
+    }
+
+    //should close session on browser close
+    session.setMaxInactiveInterval(-1);
+
+    session.setAttribute("username", sanitizedUsername);
+
+    //this will handle redirecting to the users to there "unique" loggedin page.
+    return "redirect:/togar";
+}
 }
 

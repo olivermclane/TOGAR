@@ -67,6 +67,10 @@
     </div>
 </div>
 
+<form th:action="@{/logout}" method="GET">
+    <button type="submit">Logout</button>
+</form>
+
 <script>
     const slider = document.querySelector('.slider');
     const sliderInner = slider.querySelector('.slider-inner');
