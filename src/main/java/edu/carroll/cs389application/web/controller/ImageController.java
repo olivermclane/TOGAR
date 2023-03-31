@@ -24,7 +24,9 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
-
+/**
+ *
+ */
 @Controller
 public class ImageController {
     private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
@@ -36,7 +38,16 @@ public class ImageController {
         this.userService = userService;
     }
 
-
+    /**
+     *
+     * @param fileForm
+     * @param file
+     * @param result
+     * @param model
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @PostMapping("/upload")
     public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) throws IOException {
         String username = (String) session.getAttribute("username");
@@ -59,7 +70,13 @@ public class ImageController {
         return "redirect:/togar";
     }
 
-
+    /**
+     *
+     * @param model
+     * @param session
+     * @return
+     * @throws IOException
+     */
     @GetMapping("/togar")
     public String imageGallery(Model model, HttpSession session) throws IOException {
         if (session == null) {
@@ -75,6 +92,12 @@ public class ImageController {
         return "togar";
     }
 
+    /**
+     *
+     * @param model
+     * @param username
+     * @throws IOException
+     */
     private void passImages(Model model, String username) throws IOException {
         List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 

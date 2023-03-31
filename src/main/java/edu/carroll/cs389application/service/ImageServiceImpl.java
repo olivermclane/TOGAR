@@ -23,6 +23,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ */
 @Service
 public class ImageServiceImpl implements ImageService {
     private static final Logger log = LoggerFactory.getLogger(ImageServiceImpl.class);
@@ -35,8 +38,11 @@ public class ImageServiceImpl implements ImageService {
         this.imageRepo = imageR;
     }
 
-    /*
+    /**
      *
+     * @param imageForm
+     * @param user
+     * @throws IOException
      */
     @Override
     public void saveImage(ImageForm imageForm, Login user) throws IOException {
@@ -74,6 +80,12 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
+    /**
+     *
+     * @param userImage
+     * @param file
+     * @throws IOException
+     */
     @Override
     public void saveImageFile(UserImage userImage, MultipartFile file) throws IOException {
         String imageLocation = userImage.getImageLocation();
@@ -85,8 +97,12 @@ public class ImageServiceImpl implements ImageService {
 
     }
 
-    //there are two ways to go about this, we could either pass a list of locations for the images and have the controller go
-    // through and loaded the images which could be bad practice or have this return a list of imageLocations;
+    /**
+     *
+     * @param user
+     * @return
+     * @throws IOException
+     */
     @Override
     public List<Pair<InputStream, String>> pullImages(Login user) throws IOException {
         List<UserImage> images = imageRepo.findByUser(user);
@@ -108,28 +124,44 @@ public class ImageServiceImpl implements ImageService {
         return imageStreams;
     }
 
+    /**
+     *
+     * @param file
+     * @return
+     */
     @Override
     public ErrorCode validateFile(MultipartFile file) {
         if (file == null) {
+            log.error("User Error:" + ErrorCode.INVALID_FILE_ISNULL.toString());
             return ErrorCode.INVALID_FILE_ISNULL;
         }
         if (file.isEmpty()) {
+            log.error("User Error:" + ErrorCode.INVALID_FILE_EMPTY.toString());
             return ErrorCode.INVALID_FILE_EMPTY;
         }
         if (file.getSize() > 10 * 1024 * 1024) {
+            log.error("User Error:" + ErrorCode.INVALID_FILE_SIZE.toString());
             return ErrorCode.INVALID_FILE_SIZE;
         }
         if (!file.getContentType().startsWith("image/")) {
+            log.error("User Error:" + ErrorCode.INVALID_FILE_TYPE.toString());
             return ErrorCode.INVALID_FILE_TYPE;
         }
         return ErrorCode.VALID_FILE;
     }
 
-    //This method is for testing purposes only
+    /**
+     *
+     * @param user
+     * @return
+     */
     public List<UserImage> loadUserImagesbyUserID(Login user) {
         return imageRepo.findByUser(user);
     }
 
+    /**
+     *
+     */
     public enum ErrorCode {
         INVALID_FILE_TYPE("Invalid File Type: Validate image types are PNG and JPEG"),
         INVALID_FILE_EMPTY("Invalid File: Content of file is empty, or you didn't upload a file"),
@@ -140,6 +172,10 @@ public class ImageServiceImpl implements ImageService {
 
         private final String error;
 
+        /**
+         *
+         * @param error
+         */
         ErrorCode(String error) {
             this.error = error;
         }

@@ -18,6 +18,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+/**
+ *
+ */
 public class ImageControllerTest {
 
     private ImageService imageServiceMock;
@@ -26,6 +29,9 @@ public class ImageControllerTest {
     private Model modelMock;
     private HttpSession sessionMock;
 
+    /**
+     *
+     */
     @BeforeEach
     public void setUp() {
         imageServiceMock = mock(ImageService.class);
@@ -35,6 +41,10 @@ public class ImageControllerTest {
         controller = new ImageController(imageServiceMock, userServiceMock);
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testDisplayImagesWithoutSession() throws IOException {
         when(sessionMock.getAttribute("username")).thenReturn(null);
@@ -46,6 +56,10 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("redirect:/index");
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testDisplayImagesWithoutUsername() throws IOException {
         when(sessionMock.getAttribute("username")).thenReturn("testuser");
@@ -57,6 +71,10 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("togar");
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testHandleFileUploadWithBindingError() throws IOException {
         BindingResult bindingResultMock = mock(BindingResult.class);
@@ -68,6 +86,10 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("togar");
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testHandleFileUploadWithInvalidFile() throws IOException {
         MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "not an image".getBytes());
@@ -81,6 +103,10 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("togar");
     }
 
+    /**
+     *
+     * @throws IOException
+     */
     @Test
     public void testHandleFileUploadWithValidFile() throws IOException {
         MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "test".getBytes());
@@ -91,7 +117,7 @@ public class ImageControllerTest {
 
         String viewName = controller.handleFileUpload(new ImageForm(multipartFile), multipartFile, bindingResultMock, modelMock, sessionMock);
 
-        assertThat(viewName).isEqualTo("togar");
+        assertThat(viewName).isEqualTo("redirect:/togar");
     }
 
 }

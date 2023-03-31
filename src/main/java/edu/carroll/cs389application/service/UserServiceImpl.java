@@ -51,6 +51,11 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    /**
+     *
+     * @param userName
+     * @return
+     */
     @Override
     public Login loginFromUsername(String userName) {
         return loginR.findByUsernameIgnoreCase(userName).get(0);

@@ -10,6 +10,9 @@ import static org.springframework.test.util.AssertionErrors.assertNotNull;
 import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 
+/**
+ *
+ */
 @SpringBootTest
 public class LoginServiceImplTest {
     private static final String username = "testuser";
@@ -17,6 +20,9 @@ public class LoginServiceImplTest {
     @Autowired
     private UserService loginService;
 
+    /**
+     *
+     */
     @BeforeEach
     public void doBeforeTest() {
         assertNotNull("loginService must be injected", loginService);
@@ -26,12 +32,18 @@ public class LoginServiceImplTest {
         loginService.validateUsername(testForm);
     }
 
+    /**
+     *
+     */
     @Test
     public void validatedExistingUserSuccessfulTest() {
         final LoginForm testForm = new LoginForm(username);
         assertTrue("validateExistingUserSuccessfulTest: should succeed using a valid username", loginService.validateUsername(testForm));
     }
 
+    /**
+     *
+     */
     @Test
     public void validateNewUserSuccessfulTest() {
         final String newUserTest = "newUser";

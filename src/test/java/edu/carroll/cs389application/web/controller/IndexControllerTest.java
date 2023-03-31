@@ -17,15 +17,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ *
+ */
 @WebMvcTest(LoginController.class)
 public class IndexControllerTest {
 
+    /**
+     *
+     */
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     *
+     */
     @MockBean
     private UserService loginService;
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void indexTest() throws Exception {
         mockMvc.perform(get("/"))
@@ -33,6 +46,10 @@ public class IndexControllerTest {
                 .andExpect(redirectedUrl("/index"));
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void loginGet() throws Exception {
         mockMvc.perform(get("/index"))
@@ -42,6 +59,10 @@ public class IndexControllerTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void loginFailed() throws Exception {
         mockMvc.perform(get("/loginfailed"))
@@ -50,6 +71,10 @@ public class IndexControllerTest {
 
     }
 
+    /**
+     *
+     * @throws Exception
+     */
     @Test
     public void loginPost() throws Exception {
         LoginForm loginForm = new LoginForm();

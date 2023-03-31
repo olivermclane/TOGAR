@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+/**
+ *
+ */
 @Entity
 @Table(name = "userImage")
 public class UserImage {
@@ -29,10 +32,23 @@ public class UserImage {
     @JoinColumn(name = "login_id")
     private Login user;
 
+    /**
+     *
+     */
     public UserImage() {
         // default constructor required by JPA
     }
 
+    /**
+     *
+     * @param imageName
+     * @param extension
+     * @param imageLocation
+     * @param imageSize
+     * @param imageHeight
+     * @param imageWidth
+     * @param login
+     */
     public UserImage(String imageName, String extension, String imageLocation, long imageSize, int imageHeight, int imageWidth, Login login) {
         this.imageName = imageName;
         this.extension = extension;
@@ -43,47 +59,91 @@ public class UserImage {
         this.user = login;
     }
 
+    /**
+     *
+     * @return
+     */
     public Integer getId() {
         return id;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getImageName() {
         return imageName;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getExtension() {
         return extension;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getImageLocation() {
         return imageLocation;
     }
 
+    /**
+     *
+     * @return
+     */
     public long getImageSize() {
         return imageSize;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getImageWidth() {
         return imageWidth;
     }
 
+    /**
+     *
+     * @return
+     */
     public int getImageHeight() {
         return imageHeight;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Image{" + "id=" + id + ", filename='" + imageName + '\'' + ", imageExtension='" + extension + '\'' + ", fileSize=" + imageSize + ", width=" + imageHeight + ", height=" + imageWidth + '}';
     }
 
+    /**
+     *
+     * @return
+     */
     public MultipartFile getImageFile() {
         return imageFile;
     }
 
+    /**
+     *
+     * @param imageFile
+     */
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
     }
 
+    /**
+     *
+     * @return
+     */
     public Login getUser() {
         return user;
     }

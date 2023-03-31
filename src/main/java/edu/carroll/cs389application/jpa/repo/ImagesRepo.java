@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ *
+ */
 @Repository
 public interface ImagesRepo extends JpaRepository<UserImage, Long> {
     List<UserImage> findByUser(Login user);
