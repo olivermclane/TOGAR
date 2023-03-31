@@ -1,57 +1,50 @@
+/**
+ The edu.carroll.cs389application.jpa.model package contains the Login class which is an entity class
+ used to represent login data in the database. It has a unique ID, a username which is stored in the
+ "username" column in the database, and a list of UserImage objects associated with it.
+ */
 package edu.carroll.cs389application.jpa.model;
-
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- */
 @Entity
 @Table(name = "logindata")
 public class Login {
 
-
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
-    //Useful for debugging objects and errors
     private static final String EOL = System.lineSeparator();
     private static final String TAB = "\t";
 
     /**
-     *
-     @OneToMany(mappedBy = "login", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-     private Set<userImage> userimgset;
-     */
-    /**
-     *
+     * A unique ID used to identify the row in the database.
      */
     @Id
     @GeneratedValue
     private Integer id;
 
     /**
-     *
+     * The username associated with the login. It is stored in the "username" column
+     * in the database and should be unique.
      */
-    //Column in DB for username and stored alongside the ID, this username should be unique
     @Column(name = "username", nullable = false, unique = true)
     private String username;
 
+    /**
+     * A list of UserImage objects associated with the Login object.
+     */
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<UserImage> userImages;
 
     /**
-     *
+     * A default constructor required by JPA.
      */
-    public Login() {
-        // default constructor required by JPA
-    }
+    public Login() {}
 
     /**
-     * @param username
+     * Constructor for a new Login object with a specified username.
+     *
+     * @param username The username associated with the login.
      */
     public Login(String username) {
         this.username = username;
@@ -59,50 +52,52 @@ public class Login {
     }
 
     /**
-     * Returns the keyvalue for the row in database
+     * Returns the ID of the row in the database associated with the Login object.
      *
-     * @return id of row in database
+     * @return The ID of the row in the database.
      */
     public Integer getId() {
         return id;
     }
 
     /**
-     * Sets the id for the row in DB
+     * Sets the ID of the row in the database associated with the Login object.
      *
-     * @param id
+     * @param id The ID of the row in the database.
      */
     public void setId(Integer id) {
         this.id = id;
     }
 
     /**
-     * Gets the username from the column in database
+     * Returns the username associated with the Login object.
      *
-     * @return the username
+     * @return The username associated with the Login object.
      */
     public String getUsername() {
         return username;
     }
 
     /**
-     * Use to set the username, used for creating new users or modifying usernames
+     * Sets the username associated with the Login object.
      *
-     * @param username takes the old username as a parameter
+     * @param username The new username to be associated with the Login object.
      */
     public void setUsername(String username) {
         this.username = username;
     }
 
     /**
-     * @return
+     * Returns a string representation of the Login object.
+     *
+     * @return A string representation of the Login object.
      */
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("Login @ ").append(super.toString()).append("[").append(EOL);
-        builder.append(TAB).append("username=").append(username).append(EOL);
-        builder.append("]").append(EOL);
+        builder.append("Login @ ").append(super.toString()).append("[").append(System.lineSeparator());
+        builder.append("\t").append("username=").append(username).append(System.lineSeparator());
+        builder.append("]").append(System.lineSeparator());
         return builder.toString();
     }
 }

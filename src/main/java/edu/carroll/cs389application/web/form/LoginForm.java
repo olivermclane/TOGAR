@@ -1,5 +1,6 @@
 package edu.carroll.cs389application.web.form;
 
+import edu.carroll.cs389application.service.SanizationService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -26,7 +27,7 @@ public class LoginForm {
      * @param username
      */
     public LoginForm(String username) {
-        this.username = username;
+        this.username = SanizationService.sanitize(username);
     }
 
     /**

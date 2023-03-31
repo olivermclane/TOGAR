@@ -39,97 +39,102 @@ public class ImageServiceImpl implements ImageService {
     }
 
     /**
-     *
      * @param imageForm
      * @param user
      * @throws IOException
      */
     @Override
     public void saveImage(ImageForm imageForm, Login user) {
-        MultipartFile imageFile = imageForm.getImageFile();
-        if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
-            log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
-        } else {
-            String uploadDirectory = "./images/";
+        try {
+            MultipartFile imageFile = imageForm.getImageFile();
 
-            //Seting up the properties for a UserImage object
-            String imageName = imageFile.getOriginalFilename();
-            String imageLocation = uploadDirectory + user.getId() + "/";
-            String extension = StringUtils.getFilenameExtension(imageName);
-            long imageSize = imageFile.getSize();
-    
-            //Image processing library
-            BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
-            int imageHeight = bImage.getHeight();
-            int imageWidth = bImage.getWidth();
-    
-            //creating userImage
-            UserImage uImage = new UserImage(imageName, extension, imageLocation, imageSize, imageHeight, imageWidth, user);
-            uImage.setImageFile(imageFile);
-    
-            //Saving UserImage object to DB and to the location on the local DB
-    
-    
-            try {
+            if (!validateFile(imageFile).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
+                log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
+            } else {
+                String uploadDirectory = "./images/";
+
+                //Seting up the properties for a UserImage object
+                String imageName = imageFile.getOriginalFilename();
+                String imageLocation = uploadDirectory + user.getId() + "/";
+                String extension = StringUtils.getFilenameExtension(imageName);
+                long imageSize = imageFile.getSize();
+
+                //Image processing library
+                BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
+                int imageHeight = bImage.getHeight();
+                int imageWidth = bImage.getWidth();
+
+                //creating userImage
+                UserImage uImage = new UserImage(imageName, extension, imageLocation, imageSize, imageHeight, imageWidth, user);
+                uImage.setImageFile(imageFile);
+
+                //Saving UserImage object to DB and to the location on the local DB
+
+
                 saveImageFile(uImage, imageFile);
                 imageRepo.save(uImage);
                 log.info("Success: Image meta data created in user_image");
-            } catch (IOException e) {
-                //Create out if statements for different types of IOExceptions and log them
-                if (e instanceof FileAlreadyExistsException) {
-                    log.error("A file of that name already exists.");
-                }
-                log.error("Problem saving file follow exception");
             }
+        } catch (IOException e) {
+            //Create out if statements for different types of IOExceptions and log them
+            if (e instanceof FileAlreadyExistsException) {
+                log.error("A file of that name already exists.");
+            }
+            log.error("Problem saving file follow exception");
         }
     }
 
+
     /**
-     *
      * @param userImage
      * @param file
      * @throws IOException
      */
     @Override
-    public void saveImageFile(UserImage userImage, MultipartFile file) throws IOException {
-        String imageLocation = userImage.getImageLocation();
-        Path root = Paths.get(imageLocation);
-        Files.createDirectories(root);
-        root = root.resolve(file.getOriginalFilename());
-        Files.copy(file.getInputStream(), root);
-        log.info("Image has been saved to directory image");
+    public void saveImageFile(UserImage userImage, MultipartFile file) {
+        try{
+            String imageLocation = userImage.getImageLocation();
+            Path root = Paths.get(imageLocation);
+            Files.createDirectories(root);
+            root = root.resolve(file.getOriginalFilename());
+            Files.copy(file.getInputStream(), root);
+            log.info("Image has been saved to directory image");
+        }catch (IOException e){
+            log.error("User caused a IOException review logs");
+        }
 
     }
 
     /**
-     *
      * @param user
      * @return
      * @throws IOException
      */
     @Override
-    public List<Pair<InputStream, String>> pullImages(Login user) throws IOException {
+    public List<Pair<InputStream, String>> pullImages(Login user) {
         List<UserImage> images = imageRepo.findByUser(user);
-        log.info("User ID: {}", user.getId());
-        log.info("Images list size: {}", images.size());
         List<Pair<InputStream, String>> imageStreams = new ArrayList<>();
+        try{
+            log.info("User ID: {}", user.getId());
+            log.info("Images list size: {}", images.size());
 
-        for (UserImage image : images) {
-            String imageLocation = image.getImageLocation() + image.getImageName();
-            log.info("Image pulled: {} ", imageLocation);
-            String extension = image.getImageName().substring(image.getImageName().lastIndexOf(".") + 1);
-            if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
-                InputStream inputStream = new FileInputStream(imageLocation);
-                String contentType = extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
-                imageStreams.add(Pair.of(inputStream, contentType));
+            for (UserImage image : images) {
+                String imageLocation = image.getImageLocation() + image.getImageName();
+                log.info("Image pulled: {} ", imageLocation);
+                String extension = image.getImageName().substring(image.getImageName().lastIndexOf(".") + 1);
+                if (extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") || extension.equalsIgnoreCase("png")) {
+                    InputStream inputStream = new FileInputStream(imageLocation);
+                    String contentType = extension.equalsIgnoreCase("jpg") || extension.equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+                    imageStreams.add(Pair.of(inputStream, contentType));
+                }
             }
+        }catch (IOException e){
+            log.error("User has caused a IOException review logs");
         }
-
         return imageStreams;
     }
 
     /**
-     *
      * @param file
      * @return
      */
@@ -155,7 +160,6 @@ public class ImageServiceImpl implements ImageService {
     }
 
     /**
-     *
      * @param user
      * @return
      */
@@ -177,7 +181,6 @@ public class ImageServiceImpl implements ImageService {
         private final String error;
 
         /**
-         *
          * @param error
          */
         ErrorCode(String error) {

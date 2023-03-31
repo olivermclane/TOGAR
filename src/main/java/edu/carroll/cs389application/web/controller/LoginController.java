@@ -1,5 +1,6 @@
 package edu.carroll.cs389application.web.controller;
 
+import edu.carroll.cs389application.service.SanizationService;
 import edu.carroll.cs389application.service.UserService;
 import edu.carroll.cs389application.web.form.LoginForm;
 import jakarta.servlet.http.HttpSession;
@@ -12,7 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.apache.commons.text.StringEscapeUtils;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -68,12 +70,9 @@ public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult 
         return "index";
     }
 
-    // Sanitize the username input
-    String sanitizedUsername = StringEscapeUtils.stripHtml4(logForm.getUsername());
-
     //Here we don't need to worry about passwords the validateUser will
     // fail only if multiple instance of a name are found
-    if (!loginService.validateUsername(sanitizedUsername)) {
+    if (!loginService.validateUsername(logForm)) {
         result.addError(new ObjectError("globalError", "Username has issues with more than one instance"));
         return "index";
     }
@@ -81,7 +80,7 @@ public String loginPost(@Valid @ModelAttribute LoginForm logForm, BindingResult 
     //should close session on browser close
     session.setMaxInactiveInterval(-1);
 
-    session.setAttribute("username", sanitizedUsername);
+    session.setAttribute("username", logForm.getUsername());
 
     //this will handle redirecting to the users to there "unique" loggedin page.
     return "redirect:/togar";

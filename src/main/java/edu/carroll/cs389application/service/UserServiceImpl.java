@@ -9,26 +9,39 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+
+ Implementation of UserService interface for user login and registration.
+ */
 @Service
 public class UserServiceImpl implements UserService {
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final LoginRepo loginR;
 
     /**
-     * @param loginRe
+
+     Constructor that initializes LoginRepo instance.
+     @param loginRe LoginRepo instance to be used for database access.
      */
     public UserServiceImpl(LoginRepo loginRe) {
         this.loginR = loginRe;
     }
-
     /**
-     * @param LoginForm the data from our login page such as the username
-     * @return true if the user exist, false elsewise
+
+     Validates whether a user with the given username already exists in the database.
+
+     If no user with the given username is found, a new user is created.
+
+     If multiple users are found, an error is logged and false is returned.
+
+     @param LoginForm Data from the login page including the username to be validated.
+
+     @return True if the user exists or was successfully created, false if multiple users were found.
      */
     @Override
     public boolean validateUsername(LoginForm LoginForm) {
-        log.info("User '{} has attempted login", LoginForm.getUsername());
-        // grab our list
+        log.info("User '{}' has attempted login", LoginForm.getUsername());
+        // This will grab out list of users
         List<Login> users = loginR.findByUsernameIgnoreCase(LoginForm.getUsername());
 
         //No users were found as such new user must be created.
@@ -45,16 +58,16 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
-        //Found existing username, no password needed in my app
+        //Found existing username and successfully logged in
         log.info("Success: successful login, single user found {}", LoginForm.getUsername());
         return true;
 
     }
 
     /**
-     *
-     * @param userName
-     * @return
+     Finds a user with the given username.
+     @param userName Username to search for.
+     @return The Login object corresponding to the given username.
      */
     @Override
     public Login loginFromUsername(String userName) {

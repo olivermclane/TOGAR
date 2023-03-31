@@ -49,25 +49,32 @@ public class ImageController {
      * @throws IOException
      */
     @PostMapping("/upload")
-    public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) throws IOException {
+    public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) {
         String username = (String) session.getAttribute("username");
-        passImages(model, username);
+        try {
+            passImages(model, username);
 
-        if (result.hasErrors()) {
-            return "togar";
+            if (result.hasErrors()) {
+                return "togar";
+            }
+
+            if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
+                ImageServiceImpl.ErrorCode fileError = imageService.validateFile(file);
+                log.debug(fileError.toString());
+                model.addAttribute("fileError", fileError);
+                return "togar";
+            }
+            log.info("Started upload {}", username);
+
+            fileForm.setImageFile(file);
+            imageService.saveImage(fileForm, userService.loginFromUsername(username));
+            return "redirect:/togar";
+
+        } catch (IOException e) {
+            log.error("User caused a IOException review logs for {}", username);
+            return "redirect:/togar";
         }
 
-        if (!imageService.validateFile(file).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
-            ImageServiceImpl.ErrorCode fileError = imageService.validateFile(file);
-            log.debug(fileError.toString());
-            model.addAttribute("fileError", fileError);
-            return "togar";
-        }
-        log.info("Started upload {}", username);
-
-        fileForm.setImageFile(file);
-        imageService.saveImage(fileForm, userService.loginFromUsername(username));
-        return "redirect:/togar";
     }
 
     /**
@@ -75,10 +82,9 @@ public class ImageController {
      * @param model
      * @param session
      * @return
-     * @throws IOException
      */
     @GetMapping("/togar")
-    public String imageGallery(Model model, HttpSession session) throws IOException {
+    public String imageGallery(Model model, HttpSession session) {
         if (session == null) {
             return "redirect:/index";
         }
@@ -103,25 +109,30 @@ public class ImageController {
      *
      * @param model
      * @param username
-     * @throws IOException
      */
-    private void passImages(Model model, String username) throws IOException {
-        List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
+    private void passImages(Model model, String username) {
+        try{
+            List<Pair<InputStream, String>> imageStreams = imageService.pullImages(userService.loginFromUsername(username));
 
-        List<Pair<String, String>> images = new ArrayList<>();
-        for (Pair<InputStream, String> pair : imageStreams) {
-            String contentType = pair.getSecond();
-            if (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/png")) {
-                InputStream inputStream = pair.getFirst();
-                byte[] byteArray = IOUtils.toByteArray(inputStream);
-                String imageBase64 = Base64.getEncoder().encodeToString(byteArray);
-                String imageSrc = "data:" + contentType + ";base64," + imageBase64;
-                images.add(Pair.of(imageSrc, contentType));
-                log.info("Image content type: {}", contentType);
+            List<Pair<String, String>> images = new ArrayList<>();
+            for (Pair<InputStream, String> pair : imageStreams) {
+                String contentType = pair.getSecond();
+                if (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/png")) {
+                    InputStream inputStream = pair.getFirst();
+                    byte[] byteArray = IOUtils.toByteArray(inputStream);
+                    String imageBase64 = Base64.getEncoder().encodeToString(byteArray);
+                    String imageSrc = "data:" + contentType + ";base64," + imageBase64;
+                    images.add(Pair.of(imageSrc, contentType));
+                    log.info("Image content type: {}", contentType);
+                }
             }
+            model.addAttribute("images", images);
+        } catch (IOException e) {
+            log.error("User cause IOException preview logs for {}", username);
         }
 
-        model.addAttribute("images", images);
+
+
     }
 
 
