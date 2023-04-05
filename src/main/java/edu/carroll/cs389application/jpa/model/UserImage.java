@@ -8,90 +8,80 @@ import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
- The UserImage class represents an image uploaded by a user in the application.
- It contains information about the image, including the file name, extension, location, size,
- width, and height. The UserImage class is associated with a Login instance, which represents the user who uploaded
- the image.
+ * The UserImage class represents an image uploaded by a user in the application.
+ * It contains information about the image, including the file name, extension, location, size,
+ * width, and height. The UserImage class is associated with a Login instance, which represents the user who uploaded
+ * the image.
  */
 @Entity
 @Table(name = "userImage")
 public class UserImage {
 
     /**
-
-     The name of the image file.
+     * The name of the image file.
      */
     @Column(name = "image_name", nullable = false)
     private String imageName;
     /**
-
-     The file extension of the image file.
+     * The file extension of the image file.
      */
     @Column(name = "extension", nullable = false)
     private String extension;
     /**
-
-     The location of the image file.
+     * The location of the image file.
      */
     @Column(name = "location", nullable = false)
     private String imageLocation;
     /**
-
-     The size of the image file.
+     * The size of the image file.
      */
     @Column(name = "image_size", nullable = false)
     private long imageSize;
     /**
-
-     The width of the image file.
+     * The width of the image file.
      */
     @Column(name = "width", nullable = false)
     private int imageWidth;
     /**
-
-     The height of the image file.
+     * The height of the image file.
      */
     @Column(name = "height", nullable = false)
     private int imageHeight;
     /**
-
-     The MultipartFile instance of the image file.
+     * The MultipartFile instance of the image file.
      */
     @Transient
     private MultipartFile imageFile;
     /**
-
-     The id of the UserImage instance.
+     * The id of the UserImage instance.
      */
     @Id
     @GeneratedValue
     private Integer id;
     /**
-
-     The Login instance representing the user who uploaded the image.
+     * The Login instance representing the user who uploaded the image.
      */
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "login_id")
     private Login user;
 
     /**
-
-     Creates a new UserImage instance with default values.
+     * Creates a new UserImage instance with default values.
      */
     public UserImage() {
 // default constructor required by JPA
     }
 
     /**
-
-     Creates a new UserImage instance with the specified values.
-     @param imageName the name of the image file
-     @param extension the file extension of the image file
-     @param imageLocation the location of the image file
-     @param imageSize the size of the image file
-     @param imageHeight the height of the image file
-     @param imageWidth the width of the image file
-     @param login the Login instance representing the user who uploaded the image
+     * Creates a new UserImage instance with the specified values.
+     *
+     * @param imageName     the name of the image file
+     * @param extension     the file extension of the image file
+     * @param imageLocation the location of the image file
+     * @param imageSize     the size of the image file
+     * @param imageHeight   the height of the image file
+     * @param imageWidth    the width of the image file
+     * @param login         the Login instance representing the user who uploaded the image
      */
     public UserImage(String imageName, String extension, String imageLocation, long imageSize, int imageHeight, int imageWidth, Login login) {
         this.imageName = imageName;
@@ -104,27 +94,27 @@ public class UserImage {
     }
 
     /**
-
-     Returns the id of the UserImage instance.
-     @return the id of the UserImage instance
+     * Returns the id of the UserImage instance.
+     *
+     * @return the id of the UserImage instance
      */
     public Integer getId() {
         return id;
     }
 
     /**
-
-     Returns the name of the image file.
-     @return the name of the image file
+     * Returns the name of the image file.
+     *
+     * @return the name of the image file
      */
     public String getImageName() {
         return imageName;
     }
 
     /**
-
-     Returns the file extension of the image file.
-     @return the file extension of the image file
+     * Returns the file extension of the image file.
+     *
+     * @return the file extension of the image file
      */
     public String getExtension() {
         return extension;

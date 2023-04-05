@@ -1,7 +1,8 @@
 /**
- This package contains repository interfaces for interacting with the Login entity in the database.
+ * This package contains repository interfaces for interacting with the Login entity in the database.
  */
 package edu.carroll.cs389application.jpa.repo;
+
 import edu.carroll.cs389application.jpa.model.Login;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

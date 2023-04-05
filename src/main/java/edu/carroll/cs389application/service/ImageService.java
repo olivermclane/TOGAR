@@ -22,7 +22,7 @@ public interface ImageService {
      * Saves an image and its metadata for the given user.
      *
      * @param imageForm the form data for the image to be saved
-     * @param user the user who uploaded the image
+     * @param user      the user who uploaded the image
      * @throws IOException if an error occurs while saving the image
      */
     void saveImage(ImageForm imageForm, Login user) throws IOException;
@@ -31,7 +31,7 @@ public interface ImageService {
      * Saves the image file for a given UserImage.
      *
      * @param userImage the UserImage for which to save the file
-     * @param file the MultipartFile containing the image file data
+     * @param file      the MultipartFile containing the image file data
      * @throws IOException if an error occurs while saving the image file
      */
     void saveImageFile(UserImage userImage, MultipartFile file) throws IOException;

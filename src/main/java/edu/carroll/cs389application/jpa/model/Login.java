@@ -1,13 +1,18 @@
 /**
- The edu.carroll.cs389application.jpa.model package contains the Login class which is an entity class
- used to represent login data in the database. It has a unique ID, a username which is stored in the
- "username" column in the database, and a list of UserImage objects associated with it.
+ * The edu.carroll.cs389application.jpa.model package contains the Login class which is an entity class
+ * used to represent login data in the database. It has a unique ID, a username which is stored in the
+ * "username" column in the database, and a list of UserImage objects associated with it.
  */
 package edu.carroll.cs389application.jpa.model;
+
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+/** The Login class represents a user login data.
+ It is mapped to the "logindata" table in the database.
+ */
 @Entity
 @Table(name = "logindata")
 public class Login {
@@ -39,7 +44,8 @@ public class Login {
     /**
      * A default constructor required by JPA.
      */
-    public Login() {}
+    public Login() {
+    }
 
     /**
      * Constructor for a new Login object with a specified username.

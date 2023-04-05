@@ -10,33 +10,37 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
-
- Implementation of UserService interface for user login and registration.
+ * Implementation of UserService interface for user login and registration.
  */
 @Service
 public class UserServiceImpl implements UserService {
+    /**
+     * This is a basic logging library that we use to keep track of logs for application
+     */
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    /**
+     * Repository interface for user entities. Provides CRUD functionality and
+     * additional methods for finding Login entities by username.
+     */
     private final LoginRepo loginR;
 
     /**
-
-     Constructor that initializes LoginRepo instance.
-     @param loginRe LoginRepo instance to be used for database access.
+     * Constructor that initializes LoginRepo instance.
+     *
+     * @param loginRe LoginRepo instance to be used for database access.
      */
     public UserServiceImpl(LoginRepo loginRe) {
         this.loginR = loginRe;
     }
+
     /**
-
-     Validates whether a user with the given username already exists in the database.
-
-     If no user with the given username is found, a new user is created.
-
-     If multiple users are found, an error is logged and false is returned.
-
-     @param LoginForm Data from the login page including the username to be validated.
-
-     @return True if the user exists or was successfully created, false if multiple users were found.
+     * Validates whether a user with the given username already exists in the database.
+     * If no user with the given username is found, a new user is created.
+     * If multiple users are found, an error is logged and false is returned.
+     *
+     * @param LoginForm Data from the login page including the username to be validated.
+     * @return True if the user exists or was successfully created, false if multiple users were found.
      */
     @Override
     public boolean validateUsername(LoginForm LoginForm) {
@@ -65,9 +69,10 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     Finds a user with the given username.
-     @param userName Username to search for.
-     @return The Login object corresponding to the given username.
+     * Finds a user with the given username.
+     *
+     * @param userName Username to search for.
+     * @return The Login object corresponding to the given username.
      */
     @Override
     public Login loginFromUsername(String userName) {
