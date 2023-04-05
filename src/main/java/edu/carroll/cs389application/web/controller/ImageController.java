@@ -1,8 +1,8 @@
 package edu.carroll.cs389application.web.controller;
 
-import edu.carroll.cs389application.service.ImageServiceImpl.ErrorCode;
 import edu.carroll.cs389application.service.ImageService;
 import edu.carroll.cs389application.service.ImageServiceImpl;
+import edu.carroll.cs389application.service.ImageServiceImpl.ErrorCode;
 import edu.carroll.cs389application.service.UserService;
 import edu.carroll.cs389application.web.form.ImageForm;
 import jakarta.servlet.http.HttpSession;
@@ -67,7 +67,7 @@ public class ImageController {
      * @param model    the model used to store data to be displayed by the view
      * @param session  the user's session
      * @return the view to display
-     * */
+     */
     @PostMapping("/upload")
     public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) {
         String username = (String) session.getAttribute("username");

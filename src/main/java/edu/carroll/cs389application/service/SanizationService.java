@@ -9,12 +9,12 @@ import java.util.regex.Pattern;
 public class SanizationService {
 
     /**
-     This pattern matches any HTML tag.
+     * This pattern matches any HTML tag.
      */
     private static final Pattern HTML_PATTERN = Pattern.compile("<[^>]*>");
 
     /**
-     This pattern matches any SQL commands.
+     * This pattern matches any SQL commands.
      */
     private static final Pattern SQL_PATTERN = Pattern.compile("('|--|insert|select|delete|update|union|create|drop|alter)");
 

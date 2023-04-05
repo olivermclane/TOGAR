@@ -96,7 +96,7 @@ public class ImageServiceImpl implements ImageService {
 
     /**
      * This method will write the multipart file to the disk under the DataBase file location
-     * for the image. The files library takes care of saving the image to the disk using the InputStream.
+     * for the image. The "files" library takes care of saving the image to the disk using the InputStream.
      *
      * @param userImage Instance of the userImage to grab the location to save the file.
      * @param file      This is the file to be saved to disk.
@@ -221,7 +221,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     /**
-     This enum represents the possible error codes that may occur during the validation of an image file.
+     * This enum represents the possible error codes that may occur during the validation of an image file.
      */
     public enum ErrorCode {
         /**
@@ -254,15 +254,18 @@ public class ImageServiceImpl implements ImageService {
         private final String error;
 
         /**
-         Constructs an error code object with the given error message.
-         @param error the error message for this error code
+         * Constructs an error code object with the given error message.
+         *
+         * @param error the error message for this error code
          */
         ErrorCode(String error) {
             this.error = error;
         }
+
         /**
-         Returns the error message for this error code.
-         @return the error message for this error code
+         * Returns the error message for this error code.
+         *
+         * @return the error message for this error code
          */
         public String toString() {
             return error;

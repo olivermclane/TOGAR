@@ -11,11 +11,11 @@
 <div class="container">
     <div class="row mt-5">
         <div class="col-md-12">
-            <h2 class="text-center mb-5">These are your Images</h2>
+            <h2 class="text-center mb-5">These Are Your Images</h2>
             <div class="slider">
                 <div class="slider-inner">
                     <div th:each="image : ${images}" class="slide">
-                        <img th:src="${image.first}" th:alt="Image" th:attr="data-content-type=${image.second}" />
+                        <img th:src="${image.first}" th:alt="Image" th:attr="data-content-type=${image.second}"/>
                     </div>
                 </div>
                 <div class="slider-prev">&#10094;</div>
@@ -24,7 +24,7 @@
             <p class="mt-5">Below you can upload image files (.jpg and .png)</p>
             <div class="upload">
                 <form th:action="@{/upload}" th:object="${fileForm}" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="username" th:value="${Username}" />
+                    <input type="hidden" name="username" th:value="${Username}"/>
                     <div class="form-group">
                         <input type="file" name="imageFile" class="form-control-file"/>
                     </div>

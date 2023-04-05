@@ -89,9 +89,6 @@ public class LoginController {
             return "index";
         }
 
-        // Set session timeout to be indefinite
-        session.setMaxInactiveInterval(-1);
-
         // Set the logged-in user's username as a session attribute
         session.setAttribute("username", logForm.getUsername());
 
