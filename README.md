@@ -22,7 +22,7 @@ The application allows users to upload images and view their image gallery. To u
   1. Each user is assigned a Unique Idenfication Number
   2. In the file-tree, we can see the directory **/images**, double click it!
   3. In the directory, you will see each user you have created by the associated UID.
-  4. In each directory(UID), you will see the images they have uploaded.
+  4. In each directory (UID), you will see the images they have uploaded.
   
   ### Running application tests
   1. Navigate to the root directoyr of the project.
