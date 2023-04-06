@@ -28,4 +28,4 @@ Togar is an exerimental web app that allows you to login via username and upload
   1. Navigate to the root directoyr of the project.
   2. In a terminal prompt run: **./gradlew test**
   3. The terminal window will run threw all the tests located in our testing folder.
-  4. Afterwards, it will tell you whether the test pass or failed, marked by a <span style="color:red;">Build Failded<span> or <span style="color:green;">Build Successful<span>
+  4. Afterwards, it will tell you whether the test pass or failed, marked by a <span style="color: red;">Build Faild</span> or <span style="color: green;">Build Successful</span>
