@@ -17,6 +17,7 @@ Togar is an exerimental web app that allows you to login via username and upload
   3. Open up your prefered browers and navigate to **http://localhost:8080/**
   4. Enjoy the application!
 
+## Application Feature/Breakdown
   ### Viewing images at directory view
   1. Each user is assigned a Unique Idenfication Number
   2. In the file-tree, we can see the directory **/images**, double click it!
