@@ -42,7 +42,6 @@ public class ImageControllerTest {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -57,7 +56,6 @@ public class ImageControllerTest {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -72,7 +70,6 @@ public class ImageControllerTest {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -87,7 +84,6 @@ public class ImageControllerTest {
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -96,15 +92,11 @@ public class ImageControllerTest {
         when(imageServiceMock.validateFile(fileMock)).thenReturn(ErrorCode.INVALID_FILE_TYPE);
         MultipartFile multipartFile = fileMock;
         BindingResult bindingResultMock = mock(BindingResult.class);
-
-
         String viewName = controller.handleFileUpload(new ImageForm(multipartFile), multipartFile, bindingResultMock, modelMock, sessionMock);
-
         assertThat(viewName).isEqualTo("togar");
     }
 
     /**
-     *
      * @throws IOException
      */
     @Test
@@ -114,9 +106,7 @@ public class ImageControllerTest {
         assertThat(imageServiceMock.validateFile(fileMock)).isEqualTo(ErrorCode.VALID_FILE);
         MultipartFile multipartFile = fileMock;
         BindingResult bindingResultMock = mock(BindingResult.class);
-
         String viewName = controller.handleFileUpload(new ImageForm(multipartFile), multipartFile, bindingResultMock, modelMock, sessionMock);
-
         assertThat(viewName).isEqualTo("redirect:/togar");
     }
 

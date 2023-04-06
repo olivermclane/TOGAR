@@ -59,7 +59,7 @@ public class ImageServiceImpl implements ImageService {
         try {
             MultipartFile imageFile = imageForm.getImageFile();
 
-            if (!validateFile(imageFile).equals(ImageServiceImpl.ErrorCode.VALID_FILE)) {
+            if (!validateFile(imageFile).equals(ErrorCode.VALID_FILE)) {
                 log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
             } else {
                 String uploadDirectory = "./images/";
@@ -71,6 +71,7 @@ public class ImageServiceImpl implements ImageService {
                 long imageSize = imageFile.getSize();
 
                 //Image processing library
+                log.info("This should be the IOread {}", ImageIO.read(imageFile.getInputStream()));
                 BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
                 int imageHeight = bImage.getHeight();
                 int imageWidth = bImage.getWidth();

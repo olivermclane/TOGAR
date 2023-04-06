@@ -46,7 +46,7 @@ public class LoginServiceImplTest {
      */
     @Test
     public void validateNewUserSuccessfulTest() {
-        final String newUserTest = "newUser";
+        final String newUserTest = "testuser";
         final LoginForm testForm = new LoginForm(newUserTest);
         assertTrue("ValidateCreationNewUserSuccessful: should succeed creating a new user", loginService.validateUsername(testForm));
     }
