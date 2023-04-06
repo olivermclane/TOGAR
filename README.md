@@ -2,6 +2,7 @@
 Togar is an exerimental web app that allows you to login via username and upload and delete certian images from within a Database. All of this is displayed via HTML and CSS with the images currently stored on (MariaDB). 
 
 ## Application Setup
+  
   ### Step-By-Step Guide for Database
   1.	Install Docker on your computer if you haven't already.
   2.	Clone the project from GitHub.
