@@ -10,3 +10,5 @@ Togar is an exerimental web app that allows you to login via username and upload
   4.	Build the Docker image by running the following command: **docker build -t togardatabase -f docker/dockerfile.yaml .**
   5.	Start a Docker container from the image with the following command: **docker run --name togarpostgres -p 5432:5432 -d togardatabase**
   6.	Verify that the container is running by running the following command: **docker ps**
+  7.	
+### Step-By-Step Guide for Running Application
