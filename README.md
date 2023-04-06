@@ -11,4 +11,9 @@ Togar is an exerimental web app that allows you to login via username and upload
   5.	Start a Docker container from the image with the following command: **docker run --name togarpostgres -p 5432:5432 -d togardatabase**
   6.	Verify that the container is running by running the following command: **docker ps**
   7.	
-### Step-By-Step Guide for Running Application
+  ### Step-By-Step Guide for Running Application
+  1. Navigate to the root directory of the project.
+  2. In the terminal prompt run: **./gradlew bootrun** 
+  3. Open up your prefered browers and navigate to **http://localhost:8080/**
+  4. Enjoy the application!
+  
