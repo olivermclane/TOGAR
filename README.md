@@ -1,5 +1,5 @@
 # TOGAR
-Togar is an exerimental web app that allows you to login via username and upload and delete certian images from within a Database. All of this is displayed via HTML and CSS with the images currently stored on (MariaDB). 
+The application allows users to upload images and view their image gallery. To upload an image, the user must select the image file and if the image file fails validation, the method redirects the user to the image gallery view with an error message. If the image file passes validation, the method saves the image to the postgres database and redirects the user to the image gallery view. The user's image gallery is populated by retrieving the list of image streams for the specified user using the ImageService. Each image is then converted to a base64-encoded string and added to a list of image pairs containing the image source and content type. The list of image pairs is then added to the model attribute "images" and displayed in the view. In all my application is a basic image uploading and viewing webapp that takes multipart files in and displays them on our front-end.
 
 ## Application Setup
   
