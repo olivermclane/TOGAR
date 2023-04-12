@@ -1,3 +1,6 @@
+/**
+* Provides basic ammenties to work with the user and provide userinfo to the application.
+**/
 package edu.carroll.cs389application.service;
 
 import edu.carroll.cs389application.jpa.model.Login;
