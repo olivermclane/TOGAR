@@ -1,0 +1,9 @@
+2023-04-13 18:34:06.840 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - ImageForm created for image 
+2023-04-13 18:34:06.854 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-13 18:34:06.854 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Images list size: 2
+2023-04-13 18:34:06.854 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/message.png 
+2023-04-13 18:34:06.855 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/message.png 
+2023-04-13 18:34:06.857 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-13 18:34:06.857 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-13 18:34:06.858 [http-nio-8080-exec-9] ERROR e.c.c.service.ImageServiceImpl - User Error: User uploaded a empty file.
+2023-04-13 18:34:06.858 [http-nio-8080-exec-9] ERROR e.c.c.service.ImageServiceImpl - User Error: User uploaded a empty file.

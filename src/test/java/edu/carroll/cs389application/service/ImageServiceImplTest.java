@@ -23,9 +23,8 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
-
 /**
- *
+ * Unit tests for the ImageService implementation.
  */
 @SpringBootTest
 public class ImageServiceImplTest {
@@ -37,7 +36,9 @@ public class ImageServiceImplTest {
     private UserService userService;
 
     /**
-     * @throws IOException
+     * Set up the mock objects before each test case.
+     *
+     * @throws IOException if there is an error in the setup process.
      */
     @BeforeEach
     public void setup() throws IOException {
@@ -45,11 +46,12 @@ public class ImageServiceImplTest {
         if (userService.validateUsername(new LoginForm("testuser"))) {
             //Create and validate our user in the DB.
         }
-
     }
 
     /**
+     * Test saving a valid image file.
      *
+     * @throws IOException if there is an error in the process of saving the image.
      */
     @Test
     public void testSaveImageValidFile() throws IOException {
@@ -64,7 +66,9 @@ public class ImageServiceImplTest {
     }
 
     /**
-     * @throws IOException
+     * Test pulling images for a user.
+     *
+     * @throws IOException if there is an error in the process of pulling the images.
      */
     @Test
     public void testPullImages() throws IOException {
@@ -81,7 +85,9 @@ public class ImageServiceImplTest {
     }
 
     /**
-     * @throws IOException
+     * Test validating a valid file.
+     *
+     * @throws IOException if there is an error in the process of validating the file.
      */
     @Test
     public void testValidateFileValid() throws IOException {
@@ -92,16 +98,15 @@ public class ImageServiceImplTest {
     }
 
     /**
-     *
+     * Test validating a null file.
      */
-    @Test
     public void testValidateFileNullFile() {
         ErrorCode result = imageService.validateFile(null);
         assertEquals(ErrorCode.INVALID_FILE_ISNULL, result);
     }
 
     /**
-     *
+     * Test validating a empty file.
      */
     @Test
     void testValidateFileEmptyFile() {
@@ -111,7 +116,7 @@ public class ImageServiceImplTest {
     }
 
     /**
-     *
+     * Test validating a large file over 10MB.
      */
     @Test
     public void testValidateFileLargeFile() {
@@ -123,7 +128,7 @@ public class ImageServiceImplTest {
     }
 
     /**
-     *
+     * Test validating a invalid file type.
      */
     @Test
     public void testValidateFileInvalidType() {

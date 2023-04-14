@@ -11,17 +11,19 @@ import static org.springframework.test.util.AssertionErrors.assertTrue;
 
 
 /**
- *
+ * This class contains unit tests for the LoginServiceImpl class.
  */
 @SpringBootTest
 public class LoginServiceImplTest {
+
     private static final String username = "testuser";
 
     @Autowired
     private UserService loginService;
 
     /**
-     *
+     * Ensures that the loginService is injected.
+     * Also creates a test user in the database.
      */
     @BeforeEach
     public void doBeforeTest() {
@@ -33,7 +35,7 @@ public class LoginServiceImplTest {
     }
 
     /**
-     *
+     * Tests that a valid existing user is validated successfully.
      */
     @Test
     public void validatedExistingUserSuccessfulTest() {
@@ -42,7 +44,7 @@ public class LoginServiceImplTest {
     }
 
     /**
-     *
+     * Tests that a new user can be successfully created.
      */
     @Test
     public void validateNewUserSuccessfulTest() {

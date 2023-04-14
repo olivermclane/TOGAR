@@ -19,7 +19,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 /**
- *
+ * This class contains unit tests for the ImageController class.
  */
 public class ImageControllerTest {
 
@@ -30,7 +30,7 @@ public class ImageControllerTest {
     private HttpSession sessionMock;
 
     /**
-     *
+     * Sets up the test environment by creating mocks and the ImageController instance.
      */
     @BeforeEach
     public void setUp() {
@@ -42,10 +42,10 @@ public class ImageControllerTest {
     }
 
     /**
-     * @throws IOException
+     * Tests the imageGallery method when there is no session.
      */
     @Test
-    public void testDisplayImagesWithoutSession() throws IOException {
+    public void testDisplayImagesWithoutSession() {
         when(sessionMock.getAttribute("username")).thenReturn(null);
         MultipartFile fileMock = mock(MultipartFile.class);
         BindingResult bindingResultMock = mock(BindingResult.class);
@@ -55,11 +55,12 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("redirect:/index");
     }
 
+
     /**
-     * @throws IOException
+     * Tests the imageGallery method when there is no username in the session.
      */
     @Test
-    public void testDisplayImagesWithoutUsername() throws IOException {
+    public void testDisplayImagesWithoutUsername() {
         when(sessionMock.getAttribute("username")).thenReturn("testuser");
         MultipartFile fileMock = mock(MultipartFile.class);
         BindingResult bindingResultMock = mock(BindingResult.class);
@@ -69,11 +70,12 @@ public class ImageControllerTest {
         assertThat(viewName).isEqualTo("togar");
     }
 
+
     /**
-     * @throws IOException
+     * Tests the imageGallery method when there is no username in the session.
      */
     @Test
-    public void testHandleFileUploadWithBindingError() throws IOException {
+    public void testHandleFileUploadWithBindingError() {
         BindingResult bindingResultMock = mock(BindingResult.class);
         when(bindingResultMock.hasErrors()).thenReturn(true);
         MultipartFile fileMock = mock(MultipartFile.class);
@@ -84,10 +86,10 @@ public class ImageControllerTest {
     }
 
     /**
-     * @throws IOException
+     * Tests the handleFileUpload method when the file is invalid.
      */
     @Test
-    public void testHandleFileUploadWithInvalidFile() throws IOException {
+    public void testHandleFileUploadWithInvalidFile() {
         MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "not an image".getBytes());
         when(imageServiceMock.validateFile(fileMock)).thenReturn(ErrorCode.INVALID_FILE_TYPE);
         MultipartFile multipartFile = fileMock;
@@ -97,10 +99,10 @@ public class ImageControllerTest {
     }
 
     /**
-     * @throws IOException
+     * Tests the handleFileUpload method for a valid file.
      */
     @Test
-    public void testHandleFileUploadWithValidFile() throws IOException {
+    public void testHandleFileUploadWithValidFile() {
         MockMultipartFile fileMock = new MockMultipartFile("imageFile", "test.jpg", "image/jpeg", "test".getBytes());
         when(imageServiceMock.validateFile(fileMock)).thenReturn(ErrorCode.VALID_FILE);
         assertThat(imageServiceMock.validateFile(fileMock)).isEqualTo(ErrorCode.VALID_FILE);

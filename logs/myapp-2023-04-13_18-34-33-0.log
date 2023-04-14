@@ -1,0 +1,8 @@
+2023-04-13 18:34:33.943 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - ImageForm created for image message.png
+2023-04-13 18:34:33.953 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-13 18:34:33.953 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Images list size: 2
+2023-04-13 18:34:33.953 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/message.png 
+2023-04-13 18:34:33.954 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/message.png 
+2023-04-13 18:34:33.954 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-13 18:34:33.955 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-13 18:34:33.956 [http-nio-8080-exec-2] INFO  e.c.c.service.ImageServiceImpl - Started upload oliver.mclane

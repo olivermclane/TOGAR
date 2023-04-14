@@ -71,7 +71,6 @@ public class ImageServiceImpl implements ImageService {
                 long imageSize = imageFile.getSize();
 
                 //Image processing library
-                log.info("This should be the IOread {}", ImageIO.read(imageFile.getInputStream()));
                 BufferedImage bImage = ImageIO.read(imageFile.getInputStream());
                 int imageHeight = bImage.getHeight();
                 int imageWidth = bImage.getWidth();
