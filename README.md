@@ -27,18 +27,23 @@ The application allows users to upload images and view their image gallery. To u
   ### Step-By-Step Guide for Running Application
   1. Navigate to the root directory of the project.
   2. In the terminal prompt run: **./gradlew bootrun** 
-  3. Open up your prefered brower and navigate to **http://localhost:8080/**
+  3. Open up your preferred browser and navigate to **http://localhost:8080/**
   4. Enjoy the application!
 
 ## Application Breakdown
   ### Viewing images at directory view
-  1. Each user is assigned a Unique Idenfication Number
+  1. Each user is assigned a Unique ID Number
   2. In the file-tree of the project, we can see the directory **/images**, double click it!
   3. In the images directory, you will see each user has been created by the associated UID.
   4. In each directory (UID), you will see the images they have uploaded.
   
   ### Running application tests
-  1. Navigate to the root directoyr of the project.
+  1. Navigate to the root directory of the project.
   2. In a terminal prompt run: **./gradlew test**
   3. The terminal window will run threw all the tests located in our testing folder.
   4. Afterwards, it will tell you whether the test pass or failed, marked by a **Build Faild or Build Successful**.
+  
+  ### Viewing Documentation
+  1. Navigate to the Docs folder
+  2. Open the **index.html** in your preferred browser.
+  3. View/Search the java documentation.
