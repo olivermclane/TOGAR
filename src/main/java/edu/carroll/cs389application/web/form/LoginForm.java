@@ -50,6 +50,6 @@ public class LoginForm {
      * @param username the value to be assigned to the username field
      */
     public void setUsername(String username) {
-        this.username = username;
+        this.username = SanizationService.sanitize(username);
     }
 }
