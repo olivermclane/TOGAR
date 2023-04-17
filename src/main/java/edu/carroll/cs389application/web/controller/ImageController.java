@@ -71,29 +71,23 @@ public class ImageController {
     @PostMapping("/upload")
     public String handleFileUpload(@ModelAttribute("fileForm") ImageForm fileForm, @RequestParam("imageFile") MultipartFile file, BindingResult result, Model model, HttpSession session) {
         String username = (String) session.getAttribute("username");
-        try {
-            passImages(model, username);
+        passImages(model, username);
 
-            if (result.hasErrors()) {
-                return "togar";
-            }
-
-            if (!imageService.validateFile(file).equals(ErrorCode.VALID_FILE)) {
-                ErrorCode fileError = imageService.validateFile(file);
-                log.debug(fileError.toString());
-                model.addAttribute("fileError", fileError);
-                return "togar";
-            }
-            log.info("Started upload {}", username);
-
-            fileForm.setImageFile(file);
-            imageService.saveImage(fileForm, userService.loginFromUsername(username));
-            return "redirect:/togar";
-
-        } catch (IOException e) {
-            log.error("User caused a IOException review logs for {}", username);
-            return "redirect:/togar";
+        if (result.hasErrors()) {
+            return "togar";
         }
+
+        if (!imageService.validateFile(file).equals(ErrorCode.VALID_FILE)) {
+            ErrorCode fileError = imageService.validateFile(file);
+            log.debug(fileError.toString());
+            model.addAttribute("fileError", fileError);
+            return "togar";
+        }
+        log.info("Started upload {}", username);
+
+        fileForm.setImageFile(file);
+        imageService.saveImage(fileForm, userService.loginFromUsername(username));
+        return "redirect:/togar";
 
     }
 

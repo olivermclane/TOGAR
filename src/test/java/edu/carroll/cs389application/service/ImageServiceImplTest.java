@@ -35,6 +35,10 @@ public class ImageServiceImplTest {
     @Autowired
     private UserService userService;
 
+    private final String testuser = "testuser";
+
+    private final LoginForm testform = new LoginForm(testuser);
+
     /**
      * Set up the mock objects before each test case.
      *
@@ -43,10 +47,16 @@ public class ImageServiceImplTest {
     @BeforeEach
     public void setup() throws IOException {
         MockitoAnnotations.openMocks(this);
-        if (userService.validateUsername(new LoginForm("testuser"))) {
+        if (userService.validateUsername(testform)) {
             //Create and validate our user in the DB.
         }
     }
+
+    /**
+     * 0 Images 1 Image test 2 Image test, 2 identical, 2 different, two image types
+     * 0 images, 1 image, 2 image, 2 identical, 2 different, two image types
+     *
+     */
 
     /**
      * Test saving a valid image file.
@@ -55,7 +65,7 @@ public class ImageServiceImplTest {
      */
     @Test
     public void testSaveImageValidFile() throws IOException {
-        Login user = userService.loginFromUsername("testuser");
+        Login user = userService.loginFromUsername(testuser);
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
@@ -72,7 +82,7 @@ public class ImageServiceImplTest {
      */
     @Test
     public void testPullImages() throws IOException {
-        Login user = userService.loginFromUsername("testuser");
+        Login user = userService.loginFromUsername(testuser);
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
@@ -122,7 +132,6 @@ public class ImageServiceImplTest {
     public void testValidateFileLargeFile() {
         byte[] data = new byte[1024 * 1024 * 11];
         MockMultipartFile file = new MockMultipartFile("test-image.jpg", "image.jpg", "image/jpg", data);
-
         ErrorCode result = imageService.validateFile(file);
         assertEquals(ErrorCode.INVALID_FILE_SIZE, result);
     }
@@ -136,4 +145,8 @@ public class ImageServiceImplTest {
         ErrorCode result = imageService.validateFile(file);
         assertEquals(ErrorCode.INVALID_FILE_TYPE, result);
     }
+
+    /** test no content type, test null data, test no image name
+     *
+     */
 }

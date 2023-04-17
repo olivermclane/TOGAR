@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%date - [%level] - from %logger in %thread %n%message%n%xException%n</pattern>
+        </encoder>
+    </appender>
+
     <property name="log.dir" value="./logs"/>
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -29,8 +36,11 @@
     <!-- Increase verbosity for local classes during testing -->
     <logger name="edu.carroll.cs389" level="DEBUG"/>
 
+
+
     <!-- Default level is INFO -->
     <root level="INFO">
+        <appender-ref ref="FILE"/>
         <appender-ref ref="Console"/>
     </root>
 </configuration>

@@ -48,6 +48,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     /**
+     * Change this to boolean
      * This method will take an image and strip it of all the image metadata, and then save the data in our DB.
      * At the end of the method we have it call the saveImageFile command which will write the image to disk under the given location.
      *
@@ -93,7 +94,6 @@ public class ImageServiceImpl implements ImageService {
         }
     }
 
-
     /**
      * This method will write the multipart file to the disk under the DataBase file location
      * for the image. The "files" library takes care of saving the image to the disk using the InputStream.
@@ -101,8 +101,7 @@ public class ImageServiceImpl implements ImageService {
      * @param userImage Instance of the userImage to grab the location to save the file.
      * @param file      This is the file to be saved to disk.
      */
-    @Override
-    public void saveImageFile(UserImage userImage, MultipartFile file) {
+    private void saveImageFile(UserImage userImage, MultipartFile file) {
         try {
             //File Location
             String imageLocation = userImage.getImageLocation();
@@ -133,7 +132,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public List<Pair<InputStream, String>> pullImages(Login user) {
         //List of UserImages from the imageRepo for the selected user
-        List<UserImage> images = imageRepo.findByUser(user);
+        List<UserImage> images = loadUserImagesbyUserID(user);
 
         //Instance of return inputstream, content-type Pair.
         List<Pair<InputStream, String>> imageStreams = new ArrayList<>();
@@ -228,6 +227,7 @@ public class ImageServiceImpl implements ImageService {
          * This is our ErrorCode for invalid file extension.
          */
         INVALID_FILE_TYPE("INVALID: Check file extension (.png or .jpg)"),
+
         /**
          * This is our ErrorCode if user empty file is uploaded.
          */
