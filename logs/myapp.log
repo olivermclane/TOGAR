@@ -1,0 +1,75 @@
+2023-04-17 12:04:01.091 [http-nio-8080-exec-2] INFO  e.c.c.service.UserServiceImpl - User 'oliver.mclane' has attempted login
+2023-04-17 12:04:01.239 [http-nio-8080-exec-2] INFO  e.c.c.service.UserServiceImpl - Success: successful login, single user found oliver.mclane
+2023-04-17 12:04:01.263 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-17 12:04:01.264 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Images list size: 4
+2023-04-17 12:04:01.264 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage1.jpg 
+2023-04-17 12:04:01.265 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage2.jpg 
+2023-04-17 12:04:01.275 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage3.jpg 
+2023-04-17 12:04:01.275 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage4.png 
+2023-04-17 12:04:01.284 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:04:01.287 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:04:01.290 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:04:01.294 [http-nio-8080-exec-5] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+ 2023-04-17 12:09:20.267 [restartedMain] INFO  edu.carroll.cs389application.WebApp - Starting WebApp using Java 17.0.6 with PID 22448 (C:\Users\ollie\OneDrive\Desktop\cs389-application\build\classes\java\main started by ollie in C:\Users\ollie\OneDrive\Desktop\cs389-application)
+2023-04-17 12:09:20.269 [restartedMain] INFO  edu.carroll.cs389application.WebApp - No active profile set, falling back to 1 default profile: "default"
+2023-04-17 12:09:21.984 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2023-04-17 12:09:21.985 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2023-04-17 12:09:21.986 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.5]
+2023-04-17 12:09:22.062 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2023-04-17 12:09:22.459 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000021: Encountered deprecated setting [javax.persistence.sharedCache.mode], use [jakarta.persistence.sharedCache.mode] instead
+2023-04-17 12:09:22.795 [restartedMain] INFO  SQL dialect - HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2023-04-17 12:09:24.352 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-04-17 12:09:24.714 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2023-04-17 12:09:24.760 [restartedMain] INFO  edu.carroll.cs389application.WebApp - Started WebApp in 5.156 seconds (process running for 5.759)
+2023-04-17 12:09:46.576 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-17 12:09:49.843 [http-nio-8080-exec-5] INFO  e.c.c.service.UserServiceImpl - User 'oliver.mclane' has attempted login
+2023-04-17 12:09:49.975 [http-nio-8080-exec-5] INFO  e.c.c.service.UserServiceImpl - Success: successful login, single user found oliver.mclane
+2023-04-17 12:09:49.999 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-17 12:09:49.999 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Images list size: 4
+2023-04-17 12:09:50.000 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage1.jpg 
+2023-04-17 12:09:50.000 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage2.jpg 
+2023-04-17 12:09:50.001 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage3.jpg 
+2023-04-17 12:09:50.001 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage4.png 
+2023-04-17 12:09:50.009 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:09:50.012 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:09:50.014 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:09:50.017 [http-nio-8080-exec-6] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-17 12:10:02.971 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - ImageForm created for image flight_record (1).txt
+2023-04-17 12:10:02.982 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-17 12:10:02.983 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Images list size: 4
+2023-04-17 12:10:02.983 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage1.jpg 
+2023-04-17 12:10:02.983 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage2.jpg 
+2023-04-17 12:10:02.983 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage3.jpg 
+2023-04-17 12:10:02.983 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage4.png 
+2023-04-17 12:10:02.984 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:10:02.985 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:10:02.986 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:10:02.989 [http-nio-8080-exec-9] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-17 12:10:02.990 [http-nio-8080-exec-9] ERROR e.c.c.service.ImageServiceImpl - User Error: Image isn't a valid image type ex.(image/). Image type was text/plain.
+2023-04-17 12:10:02.991 [http-nio-8080-exec-9] ERROR e.c.c.service.ImageServiceImpl - User Error: Image isn't a valid image type ex.(image/). Image type was text/plain.
+2023-04-17 12:11:19.110 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - ImageForm created for image file5.txt
+2023-04-17 12:11:19.124 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-17 12:11:19.124 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Images list size: 4
+2023-04-17 12:11:19.124 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage1.jpg 
+2023-04-17 12:11:19.124 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage2.jpg 
+2023-04-17 12:11:19.125 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage3.jpg 
+2023-04-17 12:11:19.125 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage4.png 
+2023-04-17 12:11:19.126 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:11:19.127 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:11:19.128 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:11:19.132 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
+2023-04-17 12:11:19.133 [http-nio-8080-exec-4] ERROR e.c.c.service.ImageServiceImpl - User Error: Image isn't a valid image type ex.(image/). Image type was text/plain.
+2023-04-17 12:11:19.133 [http-nio-8080-exec-4] ERROR e.c.c.service.ImageServiceImpl - User Error: Image isn't a valid image type ex.(image/). Image type was text/plain.
+2023-04-17 12:14:21.569 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-04-17 12:14:36.283 [http-nio-8080-exec-3] INFO  e.c.c.service.UserServiceImpl - User 'oliver.mclane' has attempted login
+2023-04-17 12:14:36.416 [http-nio-8080-exec-3] INFO  e.c.c.service.UserServiceImpl - Success: successful login, single user found oliver.mclane
+2023-04-17 12:14:36.440 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - User ID: 1
+2023-04-17 12:14:36.441 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Images list size: 4
+2023-04-17 12:14:36.441 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage1.jpg 
+2023-04-17 12:14:36.442 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage2.jpg 
+2023-04-17 12:14:36.442 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage3.jpg 
+2023-04-17 12:14:36.442 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image pulled: ./images/1/testimage4.png 
+2023-04-17 12:14:36.451 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:14:36.454 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:14:36.457 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/jpeg
+2023-04-17 12:14:36.461 [http-nio-8080-exec-4] INFO  e.c.c.service.ImageServiceImpl - Image content type: image/png
