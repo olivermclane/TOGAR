@@ -5,6 +5,7 @@ package edu.carroll.cs389application.jpa.repo;
 
 import edu.carroll.cs389application.jpa.model.Login;
 import edu.carroll.cs389application.jpa.model.UserImage;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,15 @@ public interface ImagesRepo extends JpaRepository<UserImage, Long> {
      * @return a list of UserImage entities associated with the specified user
      */
     List<UserImage> findByUser(Login user);
+
+    /**
+     * Deletes all records of images within the database.
+     *
+     * @param user the Login entity to delete by
+     */
+    @Transactional
+    void deleteByUser(Login user);
+
 }
 
 

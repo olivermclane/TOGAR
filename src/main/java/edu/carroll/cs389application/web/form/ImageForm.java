@@ -32,6 +32,13 @@ public class ImageForm {
     }
 
     /**
+     * Default Constructor
+     */
+    public ImageForm(){
+
+    }
+
+    /**
      * Returns the value of the imageFile field.
      *
      * @return the value of the imageFile field

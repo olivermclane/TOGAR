@@ -49,4 +49,13 @@ public interface ImageService {
      * @return a list of UserImage objects representing the user's images
      */
     List<UserImage> loadUserImagesbyUserID(Login user);
+
+    /**
+     * Deletes the images for a given user within the database
+     *
+     * @param user Login entity to delete with
+     */
+    void deleteUserImages(Login user);
+
+
 }

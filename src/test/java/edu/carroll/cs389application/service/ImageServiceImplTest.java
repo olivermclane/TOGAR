@@ -1,9 +1,12 @@
 package edu.carroll.cs389application.service;
 
 import edu.carroll.cs389application.jpa.model.Login;
+import edu.carroll.cs389application.jpa.model.UserImage;
 import edu.carroll.cs389application.service.ImageServiceImpl.ErrorCode;
 import edu.carroll.cs389application.web.form.ImageForm;
 import edu.carroll.cs389application.web.form.LoginForm;
+import jakarta.validation.constraints.AssertTrue;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,10 +24,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * Unit tests for the ImageService implementation.
+ * <p>
+ * Combined pullimages and saveimage into one because they test all the functionality together.
  */
 @SpringBootTest
 public class ImageServiceImplTest {
@@ -53,10 +58,15 @@ public class ImageServiceImplTest {
     }
 
     /**
-     * 0 Images 1 Image test 2 Image test, 2 identical, 2 different, two image types
-     * 0 images, 1 image, 2 image, 2 identical, 2 different, two image types
+     * This method will clean up the database after writing images.
      *
+     * @throws IOException will throw if images failed to clean
      */
+    @AfterEach
+    public void cleanup() throws IOException {
+        Login user = userService.loginFromUsername(testuser);
+        imageService.deleteUserImages(user);
+    }
 
     /**
      * Test saving a valid image file.
@@ -64,35 +74,142 @@ public class ImageServiceImplTest {
      * @throws IOException if there is an error in the process of saving the image.
      */
     @Test
-    public void testSaveImageValidFile() throws IOException {
+    public void testSavePullImageOneValidFile() throws IOException {
         Login user = userService.loginFromUsername(testuser);
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         byte[] fileBytes = baos.toByteArray();
-        MockMultipartFile file = new MockMultipartFile("test-image.png", "image.png", "image/png", fileBytes);
-        ImageForm form = new ImageForm(file);
-        Assertions.assertDoesNotThrow(() -> imageService.saveImage(form, user));
+        MultipartFile file1 = new MockMultipartFile("test-image1.jpg", "image1.jpg", "image/jpeg", fileBytes);
+        ImageForm form1 = new ImageForm(file1);
+        imageService.saveImage(form1, user);
+        List<Pair<InputStream, String>> images = imageService.pullImages(user);
+        List<UserImage> userimages = imageService.loadUserImagesbyUserID(user);
+        for (Pair<InputStream, String> pair : images) {
+            byte[] pairbytes = pair.getFirst().readAllBytes();
+            assertArrayEquals(pairbytes, fileBytes);
+        }
+        String contentType1 = userimages.get(0).getExtension().equalsIgnoreCase("jpg") || userimages.get(0).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+
+        assertEquals(userimages.get(0).getImageName(), file1.getOriginalFilename());
+        assertTrue(contentType1.equals(file1.getContentType()));
     }
 
     /**
-     * Test pulling images for a user.
+     * This method will test if you test a pull with zero images/null.
      *
-     * @throws IOException if there is an error in the process of pulling the images.
+     * @throws IOException Catch if the image pull fails or the image save fails
      */
     @Test
-    public void testPullImages() throws IOException {
+    public void testSavePullImageNoFile() throws IOException {
+        Login user = userService.loginFromUsername(testuser);
+        //No Imagefile in form
+        ImageForm form1 = new ImageForm();
+        imageService.saveImage(form1, user);
+        List<Pair<InputStream, String>> images = imageService.pullImages(user);
+        List<UserImage> userimages = imageService.loadUserImagesbyUserID(user);
+        assertTrue(images.isEmpty());
+        assertTrue(userimages.isEmpty());
+
+    }
+
+    /**
+     * Test saving and pulling images for two valid files.
+     *
+     * @throws IOException Throws if the save or pull fails.
+     */
+    @Test
+    public void testSavePullImageTwoValidFile() throws IOException {
         Login user = userService.loginFromUsername(testuser);
         BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ImageIO.write(image, "png", baos);
         byte[] fileBytes = baos.toByteArray();
         MultipartFile file1 = new MockMultipartFile("test-image1.png", "image1.png", "image/png", fileBytes);
-        ImageForm form = new ImageForm(file1);
-        imageService.saveImage(form, user);
+        MultipartFile file2 = new MockMultipartFile("test-image2.png", "image2.png", "image/png", fileBytes);
+        ImageForm form1 = new ImageForm(file1);
+        ImageForm form2 = new ImageForm(file2);
+        imageService.saveImage(form1, user);
+        imageService.saveImage(form2, user);
         List<Pair<InputStream, String>> images = imageService.pullImages(user);
-        Assertions.assertNotNull(images);
+        List<UserImage> userimages = imageService.loadUserImagesbyUserID(user);
+        for (Pair<InputStream, String> pair : images) {
+            byte[] pairbytes = pair.getFirst().readAllBytes();
+            assertArrayEquals(pairbytes, fileBytes);
+        }
+        String contentType1 = userimages.get(0).getExtension().equalsIgnoreCase("jpg") || userimages.get(0).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+        String contentType2 = userimages.get(1).getExtension().equalsIgnoreCase("jpg") || userimages.get(1).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+
+        assertEquals(userimages.get(0).getImageName(), file1.getOriginalFilename());
+        assertTrue(contentType1.equals(file1.getContentType()));
+        assertEquals(userimages.get(1).getImageName(), file2.getOriginalFilename());
+        assertTrue(contentType2.equals(file2.getContentType()));
     }
+
+    /**
+     * Test the saving and pulling of two identical images.
+     *
+     * @throws IOException Throws if error occurs while saving or pulling the images.
+     */
+    @Test
+    public void testSavePullImageIdenticalValidFile() throws IOException {
+        Login user = userService.loginFromUsername(testuser);
+        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        byte[] fileBytes = baos.toByteArray();
+        MultipartFile file1 = new MockMultipartFile("test-image1.png", "image1.png", "image/png", fileBytes);
+        ImageForm form1 = new ImageForm(file1);
+        imageService.saveImage(form1, user);
+        imageService.saveImage(form1, user);
+        List<Pair<InputStream, String>> images = imageService.pullImages(user);
+        List<UserImage> userimages = imageService.loadUserImagesbyUserID(user);
+        for (Pair<InputStream, String> pair : images) {
+            byte[] pairbytes = pair.getFirst().readAllBytes();
+            assertArrayEquals(pairbytes, fileBytes);
+        }
+        String contentType1 = userimages.get(0).getExtension().equalsIgnoreCase("jpg") || userimages.get(0).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+        String contentType2 = userimages.get(1).getExtension().equalsIgnoreCase("jpg") || userimages.get(1).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+
+        assertEquals(userimages.get(0).getImageName(), file1.getOriginalFilename());
+        assertTrue(contentType1.equals(file1.getContentType()));
+        assertEquals(userimages.get(1).getImageName(), file1.getOriginalFilename());
+        assertTrue(contentType2.equals(file1.getContentType()));
+    }
+
+    /**
+     * Tests saving and pulling of two different file types (png and jpg).
+     *
+     * @throws IOException Throws if fails to pull or save.
+     */
+    @Test
+    public void testSavePullImageDifferentValidFile() throws IOException {
+        Login user = userService.loginFromUsername(testuser);
+        BufferedImage image = new BufferedImage(10, 10, BufferedImage.TYPE_BYTE_BINARY);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ImageIO.write(image, "png", baos);
+        byte[] fileBytes = baos.toByteArray();
+        MultipartFile file1 = new MockMultipartFile("test-image1.jpg", "image1.jpg", "image/jpeg", fileBytes);
+        MultipartFile file2 = new MockMultipartFile("test-image2.png", "image2.png", "image/png", fileBytes);
+        ImageForm form1 = new ImageForm(file1);
+        ImageForm form2 = new ImageForm(file2);
+        imageService.saveImage(form1, user);
+        imageService.saveImage(form2, user);
+        List<Pair<InputStream, String>> images = imageService.pullImages(user);
+        List<UserImage> userimages = imageService.loadUserImagesbyUserID(user);
+        for (Pair<InputStream, String> pair : images) {
+            byte[] pairbytes = pair.getFirst().readAllBytes();
+            assertArrayEquals(pairbytes, fileBytes);
+        }
+        String contentType1 = userimages.get(0).getExtension().equalsIgnoreCase("jpg") || userimages.get(0).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+        String contentType2 = userimages.get(1).getExtension().equalsIgnoreCase("jpg") || userimages.get(1).getExtension().equalsIgnoreCase("jpeg") ? "image/jpeg" : "image/png";
+
+        assertEquals(userimages.get(0).getImageName(), file1.getOriginalFilename());
+        assertTrue(contentType1.equals(file1.getContentType()));
+        assertEquals(userimages.get(1).getImageName(), file2.getOriginalFilename());
+        assertTrue(contentType2.equals(file2.getContentType()));
+    }
+
 
     /**
      * Test validating a valid file.
@@ -110,6 +227,7 @@ public class ImageServiceImplTest {
     /**
      * Test validating a null file.
      */
+    @Test
     public void testValidateFileNullFile() {
         ErrorCode result = imageService.validateFile(null);
         assertEquals(ErrorCode.INVALID_FILE_ISNULL, result);
@@ -122,7 +240,7 @@ public class ImageServiceImplTest {
     void testValidateFileEmptyFile() {
         MockMultipartFile file = new MockMultipartFile("test-image.jpg", new byte[0]);
         ErrorCode result = imageService.validateFile(file);
-        assertEquals(ErrorCode.INVALID_FILE_EMPTY, result);
+        assertEquals(ErrorCode.INVALID_FILE_ISNULL, result);
     }
 
     /**
@@ -146,7 +264,24 @@ public class ImageServiceImplTest {
         assertEquals(ErrorCode.INVALID_FILE_TYPE, result);
     }
 
-    /** test no content type, test null data, test no image name
-     *
+    /**
+     * Testing Null Content Type within a file.
      */
+    @Test
+    public void testValidateFileNoContentType() {
+        MockMultipartFile file = new MockMultipartFile("test-image.txt", "test.txt", null, new byte[1024]);
+        ErrorCode result = imageService.validateFile(file);
+        assertEquals(ErrorCode.INVALID_FILE_ISNULL, result);
+    }
+
+    /**
+     * Tests a file with no data in it.
+     */
+    @Test
+    public void testValidateFileTestNoImageData() {
+        MockMultipartFile file = new MockMultipartFile("test-image.txt", "test.txt", "text/plain", (byte[]) null);
+        ErrorCode result = imageService.validateFile(file);
+        assertEquals(ErrorCode.INVALID_FILE_EMPTY, result);
+    }
+
 }

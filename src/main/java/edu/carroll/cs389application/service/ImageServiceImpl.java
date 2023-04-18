@@ -182,7 +182,7 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public ErrorCode validateFile(MultipartFile file) {
         //Check for null file
-        if (file == null) {
+        if (file == null || file.getContentType() == null) {
             log.error("User Error: User upload a null file.");
             return ErrorCode.INVALID_FILE_ISNULL;
         }
@@ -217,6 +217,15 @@ public class ImageServiceImpl implements ImageService {
      */
     public List<UserImage> loadUserImagesbyUserID(Login user) {
         return imageRepo.findByUser(user);
+    }
+
+    /**
+     * Deletes all userimage entities within the image database.
+     *
+     * @param user Login entity to delete by.
+     */
+    public void deleteUserImages(Login user){
+        imageRepo.deleteByUser(user);
     }
 
     /**
