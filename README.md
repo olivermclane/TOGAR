@@ -65,3 +65,18 @@ multipart files in and displays them on our front-end.
 1. Navigate to the Docs folder
 2. Open the **index.html** in your preferred browser.
 3. View/Search the java documentation.
+
+### Viewing Database 
+
+1. Open a terminal prompt.
+2. Type **docker ps** and grab the container_id.
+3. Type **docker exec -it {container_id} bash**
+4. Type **psql -U postgres -d TogarData -h localhost**
+5. Dig around the database:
+
+       a. Type \dt to view avaliable tables.
+       
+       b. Select * from user_image; to view images saved by all users.
+   
+       c. Select * from logindata; to view user instances
+
