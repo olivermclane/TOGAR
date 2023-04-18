@@ -2,6 +2,5 @@ edu.carroll.cs389application
 edu.carroll.cs389application.jpa.model
 edu.carroll.cs389application.jpa.repo
 edu.carroll.cs389application.service
-edu.carroll.cs389application.web
 edu.carroll.cs389application.web.controller
 edu.carroll.cs389application.web.form
