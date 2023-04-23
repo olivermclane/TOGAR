@@ -1,6 +1,6 @@
 package edu.carroll.cs389application.web.form;
 
-import edu.carroll.cs389application.service.SanizationService;
+import edu.carroll.cs389application.service.SanitizationService;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -32,7 +32,7 @@ public class LoginForm {
      * @param username the username to be assigned to the username field
      */
     public LoginForm(String username) {
-        this.username = SanizationService.sanitize(username);
+        this.username = SanitizationService.sanitize(username);
     }
 
     /**
@@ -50,6 +50,6 @@ public class LoginForm {
      * @param username the value to be assigned to the username field
      */
     public void setUsername(String username) {
-        this.username = SanizationService.sanitize(username);
+        this.username = SanitizationService.sanitize(username);
     }
 }

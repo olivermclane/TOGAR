@@ -10,8 +10,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/** The Login class represents a user login data.
- It is mapped to the "logindata" table in the database.
+/**
+ * The Login class represents a user login data.
+ * It is mapped to the "logindata" table in the database.
  */
 @Entity
 @Table(name = "logindata")

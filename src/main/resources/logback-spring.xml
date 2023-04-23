@@ -37,7 +37,6 @@
     <logger name="edu.carroll.cs389" level="DEBUG"/>
 
 
-
     <!-- Default level is INFO -->
     <root level="INFO">
         <appender-ref ref="FILE"/>

@@ -224,7 +224,7 @@ public class ImageServiceImpl implements ImageService {
      *
      * @param user Login entity to delete by.
      */
-    public void deleteUserImages(Login user){
+    public void deleteUserImages(Login user) {
         imageRepo.deleteByUser(user);
     }
 

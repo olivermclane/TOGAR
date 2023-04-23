@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
  * The SanizationService class provides static methods for sanitizing user input.
  * It contains regular expressions for removing HTML tags and SQL keywords.
  */
-public class SanizationService {
+public class SanitizationService {
 
     /**
      * This pattern matches any HTML tag.
