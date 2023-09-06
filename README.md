@@ -44,6 +44,9 @@ multipart files in and displays them on our front-end.
 3. Open up your preferred browser and navigate to **http://localhost:8080/**
 4. Enjoy the application!
 
+### Few Notes
+1. The current configuration has the java version set to 20 if you aren't running the latest java make sure you update your version in the build.gradle file.
+
 ## Application Breakdown
 
 ### Viewing images at directory view
