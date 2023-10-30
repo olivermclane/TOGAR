@@ -6,6 +6,8 @@
 package edu.carroll.cs389application.jpa.model;
 
 import jakarta.persistence.*;
+import java.util.Date;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,7 @@ public class Login {
      */
     @Id
     @GeneratedValue
+    @Column(nullable = false)
     private Integer id;
 
     /**
@@ -41,6 +44,33 @@ public class Login {
      */
     @OneToMany(mappedBy = "id", cascade = CascadeType.ALL)
     private List<UserImage> userImages;
+
+    @Column(name = "createdAt", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @Column(name = "updatedAt", nullable = false)
+    private Date updatedAt;
+
+    // Getters and setters for other fields
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
 
     /**
      * A default constructor required by JPA.

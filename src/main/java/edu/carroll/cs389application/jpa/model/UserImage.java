@@ -7,6 +7,8 @@ package edu.carroll.cs389application.jpa.model;
 import jakarta.persistence.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
+
 /**
  * The UserImage class represents an image uploaded by a user in the application.
  * It contains information about the image, including the file name, extension, location, size,
@@ -14,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
  * the image.
  */
 @Entity
-@Table(name = "userImage")
+@Table(name = "user_images")
 public class UserImage {
 
     /**
@@ -64,6 +66,34 @@ public class UserImage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "login_id")
     private Login user;
+
+    @Column(name = "createdAt", nullable = false, updatable = false)
+    private Date createdAt;
+
+    @Column(name = "updatedAt", nullable = false)
+    private Date updatedAt;
+
+    // Getters and setters for other fields
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = new Date();
+    }
+
 
     /**
      * Creates a new UserImage instance with default values.

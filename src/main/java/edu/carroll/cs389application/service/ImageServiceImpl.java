@@ -63,7 +63,7 @@ public class ImageServiceImpl implements ImageService {
             if (!validateFile(imageFile).equals(ErrorCode.VALID_FILE)) {
                 log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
             } else {
-                String uploadDirectory = "./images/";
+                String uploadDirectory = "/Users/olivermclane/Desktop/TogarImageDirectory/";
 
                 //Setting up the properties for a UserImage object
                 String imageName = imageFile.getOriginalFilename();
