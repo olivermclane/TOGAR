@@ -30,7 +30,7 @@ public class Login {
     @Id
     @GeneratedValue
     @Column(nullable = false)
-    private Integer id;
+    private Integer login_id;
 
     /**
      * The username associated with the login. It is stored in the "username" column
@@ -93,8 +93,8 @@ public class Login {
      *
      * @return The ID of the row in the database.
      */
-    public Integer getId() {
-        return id;
+    public Integer getLogin_id() {
+        return login_id;
     }
 
     /**
@@ -102,8 +102,8 @@ public class Login {
      *
      * @param id The ID of the row in the database.
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLogin_id(Integer id) {
+        this.login_id = id;
     }
 
     /**

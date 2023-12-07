@@ -61,13 +61,13 @@ public class ImageServiceImpl implements ImageService {
             MultipartFile imageFile = imageForm.getImageFile();
 
             if (!validateFile(imageFile).equals(ErrorCode.VALID_FILE)) {
-                log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getId());
+                log.error("User uploaded invalid file without using form validation on client-side -- UserID: {}", user.getLogin_id());
             } else {
                 String uploadDirectory = "/Users/olivermclane/Desktop/TogarImageDirectory/";
 
                 //Setting up the properties for a UserImage object
                 String imageName = imageFile.getOriginalFilename();
-                String imageLocation = uploadDirectory + user.getId() + "/";
+                String imageLocation = uploadDirectory + user.getLogin_id() + "/";
                 String extension = StringUtils.getFilenameExtension(imageName);
                 long imageSize = imageFile.getSize();
 
@@ -139,7 +139,7 @@ public class ImageServiceImpl implements ImageService {
 
         try {
             //Logging userID and total images for user
-            log.info("User ID: {}", user.getId());
+            log.info("User ID: {}", user.getLogin_id());
             log.info("Images list size: {}", images.size());
 
             //Loop through all the UserImage instance in our image list
